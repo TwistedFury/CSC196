@@ -1,0 +1,32 @@
+#pragma once
+#include <SDL3/SDL.h>
+#include <iostream>
+#include <string>
+
+namespace swaws {
+	class Renderer
+	{
+	public:
+		Renderer() = default;
+
+		bool Initialize();
+		void ShutDown();
+		bool CreateWindow(const std::string& name, int width, int height);
+
+		void Clear();
+		void Present();
+
+		void SetColor(uint8_t r, uint8_t g, uint8_t b, uint8_t = 255);
+		void DrawLine(float x1, float y1, float x2, float y2);
+		void DrawPoint(float x1, float y1);
+
+		const int GetWindowWidth() { return windowWidth; }
+		const int GetWindowHeight() { return windowHeight; }
+	private:
+		SDL_Window* m_window = nullptr;
+		SDL_Renderer* m_renderer = nullptr;
+
+		int windowWidth = 0;
+		int windowHeight = 0;
+	};
+}

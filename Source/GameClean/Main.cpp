@@ -1,29 +1,23 @@
 #include <SDL3/SDL.h>
+
+#include "Renderer/Renderer.h"
+#include "Core/Random.h"
+#include "Math/Math.h"
+#include "Math/Vector2.h"
+
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
 
-	int windowWidth = 1280;
-	int windowHeight = 1024;
+    swaws::Renderer renderer;
 
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", windowWidth, windowHeight, 0);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
+    renderer.Initialize();
+    renderer.CreateWindow("Swaws Engine", 1280, 1024); 
 
     SDL_Event e;
     bool quit = false;
+
+    swaws::vec2 v(30, 40);
 
     while (!quit) {
         while (SDL_PollEvent(&e)) {
@@ -32,50 +26,50 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+        renderer.Clear(); // Clear the renderer
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Set render draw color to black
-        SDL_RenderClear(renderer); // Clear the renderer
+        renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+        renderer.DrawLine(
+                    swaws::random::GetRandomFloat() * renderer.GetWindowWidth(), 
+                    swaws::random::GetRandomFloat() * renderer.GetWindowHeight(),
+                    swaws::random::GetRandomFloat() * renderer.GetWindowWidth(), 
+                    swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
+                );
 
         // Drawing lines
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
+            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
 
-            int rand1 = std::rand() % 256;
-            int rand2 = std::rand() % 256;
-            int rand3 = std::rand() % 256;
-            int rand4 = std::rand() % 256;
+            swaws::vec2 v(
+                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
+                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
+            );
 
+            swaws::vec2 v2(
+                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
+                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
+            );
 
-            SDL_SetRenderDrawColor(renderer, rand1, rand2, rand3, rand4); // Set render draw color to random color
-
-            int rand5 = std::rand();
-            int rand6 = std::rand();
-            int rand7 = std::rand();
-            int rand8 = std::rand();
-            SDL_RenderLine(renderer, rand5, rand6, rand7 % windowWidth, rand8 % windowHeight);
+            renderer.DrawLine(v.x, v.y, v2.x, v2.y);
         }
 
         // Drawing points
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 20; i++) {
+            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
 
-            int rand1 = std::rand() % 256;
-            int rand2 = std::rand() % 256;
-            int rand3 = std::rand() % 256;
-            int rand4 = std::rand() % 256;
-
-
-            SDL_SetRenderDrawColor(renderer, rand1, rand2, rand3, rand4); // Set render draw color to random color
-
-            int rand5 = std::rand();
-            int rand6 = std::rand();
-            SDL_RenderPoint(renderer, rand5 % windowWidth, rand6 % windowHeight);
+            swaws::vec2 v(
+                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
+                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
+            );
+            renderer.DrawPoint(v.x, v.y);
         }
 
-        SDL_RenderPresent(renderer); // Render the screen
+        renderer.Present();
+
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    renderer.ShutDown();
 
     return 0;
 }
