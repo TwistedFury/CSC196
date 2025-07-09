@@ -18,6 +18,9 @@
     <Filter Include="Source\Renderer">
       <UniqueIdentifier>{21f5e711-60ef-4680-b5df-1e605ba14e88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{9e80ba93-0048-406e-843b-2c94b628dfe4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -25,6 +28,9 @@
     </ClCompile>
     <ClCompile Include="Renderer\Renderer.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputSystem.cpp">
+      <Filter>Source\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +51,9 @@
     </ClInclude>
     <ClInclude Include="Math\Vector2.h">
       <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputSystem.h">
+      <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
