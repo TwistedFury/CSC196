@@ -32,6 +32,9 @@
     <ClCompile Include="Input\InputSystem.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Time.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Random.h">

@@ -1,9 +1,11 @@
 #include <SDL3/SDL.h>
+#include <fmod.hpp>
 
 #include "Renderer/Renderer.h"
 #include "Core/Random.h"
 #include "Math/Math.h"
 #include "Math/Vector2.h"
+#include "Core/Time.h"
 #include "Input/InputSystem.h"
 
 #include <iostream>
@@ -11,7 +13,7 @@
 int main(int argc, char* argv[]) {
     // Initialize Engine Systems
 
-    //swaws::Time time;
+    swaws::Time time;
 
     swaws::Renderer renderer;
 
@@ -22,6 +24,38 @@ int main(int argc, char* argv[]) {
     input.Initialize();
 
     // Initialize Audio
+    // create audio system
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
+	// Play a test sound
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("pacman_start.wav", FMOD_DEFAULT, 0, &sound);
+
+    audio->playSound(sound, 0, false, nullptr);
+
+    // Loading Drum Sounds
+    std::vector<FMOD::Sound*> sounds;
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
 
     swaws::vec2 v(30, 40);
 
@@ -32,7 +66,7 @@ int main(int argc, char* argv[]) {
 
     // MAIN LOOP
     while (!quit) {
-        //time.Tick();
+        time.Tick();
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
@@ -60,9 +94,48 @@ int main(int argc, char* argv[]) {
             }
 		}
 
-        // Update Engine Systems
+        // AUDIO HANDLING && INPUT
 
+        // Q = BASS_DRUM
+        if (input.GetKeyDown(SDL_SCANCODE_Q) && !input.GetPreviousKeyDown(SDL_SCANCODE_Q))
+        {
+            // play bass sound, vector elements can be accessed like an array with [#]
+            audio->playSound(sounds[0], 0, false, 0);
+        }
+
+        // W = SNARE
+        if (input.GetKeyDown(SDL_SCANCODE_W) && !input.GetPreviousKeyDown(SDL_SCANCODE_W))
+        {
+            audio->playSound(sounds[1], 0, false, 0);
+        }
+
+        // E = OPEN-HAT
+        if (input.GetKeyDown(SDL_SCANCODE_E) && !input.GetPreviousKeyDown(SDL_SCANCODE_E))
+        {
+            audio->playSound(sounds[2], 0, false, 0);
+        }
+
+        // R = CLOSE-HAT
+        if (input.GetKeyDown(SDL_SCANCODE_R) && !input.GetPreviousKeyDown(SDL_SCANCODE_R))
+        {
+            audio->playSound(sounds[3], 0, false, 0);
+        }
+
+        // T = CLAP
+        if (input.GetKeyDown(SDL_SCANCODE_T) && !input.GetPreviousKeyDown(SDL_SCANCODE_T))
+        {
+            audio->playSound(sounds[4], 0, false, 0);
+        }
+
+        // Y = COWBELL
+        if (input.GetKeyDown(SDL_SCANCODE_Y) && !input.GetPreviousKeyDown(SDL_SCANCODE_Y))
+        {
+            audio->playSound(sounds[5], 0, false, 0);
+        }
+
+        // Update Engine Systems
         input.Update();
+        audio->update();
 
         swaws::vec2 mouse = input.GetMousePosition();
         std::cout << mouse.x << "," << mouse.y << std::endl;
