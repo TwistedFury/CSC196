@@ -8,6 +8,13 @@ namespace swaws {
 	class InputSystem
 	{
 	public:
+		enum class MouseButton : uint8_t
+		{
+			Left,
+			Middle,
+			Right
+		};
+	public:
 		InputSystem() = default;
 
 		bool Initialize();
@@ -22,21 +29,20 @@ namespace swaws {
 		bool GetKeyReleased(uint8_t key) { return m_prevKeyboardState[key] && !m_keyboardState[key]; }
 
 		// MOUSE INPUT
-		bool GetMouseButtonDown(uint8_t button) { assert(button < 3);  return m_mouseButtonState[button]; }
-		bool GetPreviousMouseButtonDown(uint8_t button) { assert(button < 3);  return m_prevMouseButtonState[button]; }
-		bool GetMouseButtonPressed(uint8_t button) { assert(button < 3);  return !m_prevMouseButtonState[button] && m_mouseButtonState[button]; }
-		bool GetMouseButtonReleased(uint8_t button) { assert(button < 3);  return m_prevMouseButtonState[button] && !m_mouseButtonState[button]; }
+		bool GetMouseButtonDown(MouseButton button) { return m_mouseButtonState[(uint8_t)button]; }
+		bool GetPreviousMouseButtonDown(MouseButton button) { return m_prevMouseButtonState[(uint8_t)button]; }
+		bool GetMouseButtonPressed(MouseButton button) { return !m_prevMouseButtonState[(uint8_t)button] && m_mouseButtonState[(uint8_t)button]; }
+		bool GetMouseButtonReleased(MouseButton button) { return m_prevMouseButtonState[(uint8_t)button] && !m_mouseButtonState[(uint8_t)button]; }
 
-		const swaws::vector::vec2& GetMousePosition() { return m_mousePosition; }
-		const swaws::vector::vec2& GetPreviousMousePosition() { return m_prevMousePosition; }
-
+		const swaws::vec2& GetMousePosition() { return m_mousePosition; }
+		const swaws::vec2& GetPreviousMousePosition() { return m_prevMousePosition; }
 
 	private:
 		std::vector<bool> m_keyboardState;
 		std::vector<bool> m_prevKeyboardState;
 
-		swaws::vector::vec2 m_mousePosition{ 0, 0 };
-		swaws::vector::vec2 m_prevMousePosition{ 0, 0 };
+		swaws::vec2 m_mousePosition{ 0, 0 };
+		swaws::vec2 m_prevMousePosition{ 0, 0 };
 
 		std::array<bool, 3> m_mouseButtonState{ false, false, false };
 		std::array<bool, 3> m_prevMouseButtonState{ false, false, false };

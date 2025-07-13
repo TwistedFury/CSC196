@@ -9,6 +9,7 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+    // Initialize Engine Systems
 
     //swaws::Time time;
 
@@ -20,10 +21,14 @@ int main(int argc, char* argv[]) {
     swaws::InputSystem input;
     input.Initialize();
 
+    // Initialize Audio
+
+    swaws::vec2 v(30, 40);
+
     SDL_Event e;
     bool quit = false;
 
-    swaws::vector::vec2 v(30, 40);
+    std::vector<swaws::vec2> points;
 
     // MAIN LOOP
     while (!quit) {
@@ -34,47 +39,50 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
-        renderer.Clear(); // Clear the renderer
+        // STEP ONE (CLICK)
+        if (input.GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&
+            !input.GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            points.push_back(input.GetMousePosition());
+        }
+
+        // STEP TWO (&DRAG)
+        if (input.GetMouseButtonDown(swaws::InputSystem::MouseButton::Left) &&
+            input.GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            swaws::vec2 position = input.GetMousePosition();
+            if (points.empty()) points.push_back(position);
+            else if (position.length(points.back()) > 10) points.push_back(position);
+        }
+
+        // UNDO
+        if (input.GetKeyPressed(SDL_SCANCODE_Z) && input.GetKeyDown(SDL_SCANCODE_LCTRL)) {
+            if (!points.empty()) {
+                points.pop_back();
+            }
+		}
+
+        // Update Engine Systems
 
         input.Update();
 
-        swaws::vector::vec2 mouse = input.GetMousePosition();
+        swaws::vec2 mouse = input.GetMousePosition();
         std::cout << mouse.x << "," << mouse.y << std::endl;
-
 
         if (input.GetKeyPressed(SDL_SCANCODE_A)) std::cout << "pressed\n";
 
-        if (input.GetMouseButtonDown(0)) std::cout << "mouse pressed\n";
+        if (input.GetMouseButtonDown(swaws::InputSystem::MouseButton::Left)) std::cout << "mouse pressed\n";
 
-        // Drawing lines
-        for (int i = 0; i < 10; i++) {
-            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+        // DRAW
+        renderer.Clear(); // Clear the renderer
 
-            swaws::vector::vec2 v(
-                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
-                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
-            );
-
-            swaws::vector::vec2 v2(
-                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
-                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
-            );
-
-            renderer.DrawLine(v.x, v.y, v2.x, v2.y);
+        for (int i = 0; i < (int)points.size() - 1; i++) {
+            // set color or random color
+            // I choose random
+            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+            renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
 
-        // Drawing points
-        for (int i = 0; i < 20; i++) {
-            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
-
-            swaws::vector::vec2 v(
-                swaws::random::GetRandomFloat() * renderer.GetWindowWidth(),
-                swaws::random::GetRandomFloat() * renderer.GetWindowHeight()
-            );
-            renderer.DrawPoint(v.x, v.y);
-        }
-
+		// Reset color
+        renderer.SetColor(0, 0, 0);
         renderer.Present();
 
     }
