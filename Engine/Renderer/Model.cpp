@@ -1,0 +1,15 @@
+#include "Model.h"
+#include "Renderer.h"
+
+void swaws::Model::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
+{
+	renderer.SetColor(color.x, color.y, color.z);
+
+	for (int i = 0; i < m_verts.size() - 1; i++)
+	{
+		vec2 p1 = (m_verts[i].Rotate(rotation) * scale) + position;
+		vec2 p2 = (m_verts[i + 1].Rotate(rotation)  * scale) + position;
+
+		renderer.DrawLine(p1.x, p1.y, p2.x, p2.y);
+	}
+}

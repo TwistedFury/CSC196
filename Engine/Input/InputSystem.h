@@ -34,8 +34,8 @@ namespace swaws {
 		bool GetMouseButtonPressed(MouseButton button) { return !m_prevMouseButtonState[(uint8_t)button] && m_mouseButtonState[(uint8_t)button]; }
 		bool GetMouseButtonReleased(MouseButton button) { return m_prevMouseButtonState[(uint8_t)button] && !m_mouseButtonState[(uint8_t)button]; }
 
-		const swaws::vec2& GetMousePosition() { return m_mousePosition; }
-		const swaws::vec2& GetPreviousMousePosition() { return m_prevMousePosition; }
+		const vec2& GetMousePosition() { return m_mousePosition; }
+		const vec2& GetPreviousMousePosition() { return m_prevMousePosition; }
 
 	private:
 		std::vector<bool> m_keyboardState;

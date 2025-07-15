@@ -2,13 +2,45 @@
 #include <fmod.hpp>
 
 #include "Renderer/Renderer.h"
+#include "Renderer/Model.h"
 #include "Core/Random.h"
 #include "Math/Math.h"
 #include "Math/Vector2.h"
+#include "Math/Vector3.h"
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
 
 #include <iostream>
+
+static void LoadSounds(FMOD::System* audio, std::vector<FMOD::Sound*>& sounds)
+{
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
+    // Play a test sound
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("pacman_start.wav", FMOD_DEFAULT, 0, &sound);
+
+    audio->playSound(sound, 0, false, nullptr);
+
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+}
 
 int main(int argc, char* argv[]) {
     // Initialize Engine Systems
@@ -28,36 +60,21 @@ int main(int argc, char* argv[]) {
     FMOD::System* audio;
     FMOD::System_Create(&audio);
 
-    void* extradriverdata = nullptr;
-    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
-
-	// Play a test sound
-    FMOD::Sound* sound = nullptr;
-    audio->createSound("pacman_start.wav", FMOD_DEFAULT, 0, &sound);
-
-    audio->playSound(sound, 0, false, nullptr);
 
     // Loading Drum Sounds
     std::vector<FMOD::Sound*> sounds;
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
+    LoadSounds(audio, sounds);
 
     swaws::vec2 v(30, 40);
+
+    std::vector<swaws::vec2> model_points{
+        { -5, -5 },
+        { 5, -5 },
+        { 5, 5 },
+        { -5, 5 }
+    };
+    swaws::vec3 color{ 1, 1, 1 };
+    swaws::Model model(model_points, color);
 
     SDL_Event e;
     bool quit = false;
@@ -84,7 +101,7 @@ int main(int argc, char* argv[]) {
             input.GetKeyDown(SDL_SCANCODE_LSHIFT)) {
             swaws::vec2 position = input.GetMousePosition();
             if (points.empty()) points.push_back(position);
-            else if (position.length(points.back()) > 10) points.push_back(position);
+            else if (position.Length(points.back()) > 10) points.push_back(position);
         }
 
         // UNDO
@@ -145,17 +162,21 @@ int main(int argc, char* argv[]) {
         if (input.GetMouseButtonDown(swaws::InputSystem::MouseButton::Left)) std::cout << "mouse pressed\n";
 
         // DRAW
+
+        swaws::vec3 color{ 1, 0, 0 };
+
         renderer.Clear(); // Clear the renderer
 
         for (int i = 0; i < (int)points.size() - 1; i++) {
             // set color or random color
             // I choose random
-            renderer.SetColor(swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+            renderer.SetColor((uint8_t)swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
             renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
+        model.Draw(renderer, input.GetMousePosition(), swaws::math::halfPi * 0.5f, 5);
 
 		// Reset color
-        renderer.SetColor(0, 0, 0);
+        renderer.SetColor((uint8_t)0, 0, 0);
         renderer.Present();
 
     }
