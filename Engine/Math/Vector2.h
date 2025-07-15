@@ -93,8 +93,9 @@ namespace swaws {
 		/// <param name="scalar">The scalar value to multiply the vector by.</param>
 		/// <returns>A new Vector2 instance with both components multiplied by the scalar.</returns>
 		Vector2 operator*(float scalar) const {
-			swaws::vec2 m_scalar{ scalar, scalar };
-			return this * m_scalar;
+			Vector2<float> m_scalar{ scalar, scalar };
+			return (*this) * m_scalar;
+		}
 
 		/// <summary>
 		/// Returns a normalized (unit length) version of the vector.
@@ -126,4 +127,4 @@ namespace swaws {
 
 	using ivec2 = Vector2<int>;
 	using vec2 = Vector2<float>;
-};
+}

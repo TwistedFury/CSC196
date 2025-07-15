@@ -1,8 +1,9 @@
 #pragma once
-#include "../Math/Vector2.h"
+
 #include <vector>
 #include <array>
 #include <cassert>
+#include "../Math/Vector2.h"
 
 namespace swaws {
 	class InputSystem
@@ -41,8 +42,8 @@ namespace swaws {
 		std::vector<bool> m_keyboardState;
 		std::vector<bool> m_prevKeyboardState;
 
-		swaws::vec2 m_mousePosition{ 0, 0 };
-		swaws::vec2 m_prevMousePosition{ 0, 0 };
+		vec2 m_mousePosition{ 0, 0 };
+		vec2 m_prevMousePosition{ 0, 0 };
 
 		std::array<bool, 3> m_mouseButtonState{ false, false, false };
 		std::array<bool, 3> m_prevMouseButtonState{ false, false, false };

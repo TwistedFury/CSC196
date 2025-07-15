@@ -3,7 +3,7 @@
 
 void swaws::Model::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
 {
-	renderer.SetColor(color.x, color.y, color.z);
+	renderer.SetColor(color.r, color.g, color.b);
 
 	for (int i = 0; i < m_verts.size() - 1; i++)
 	{
@@ -11,5 +11,10 @@ void swaws::Model::Draw(Renderer& renderer, const vec2& position, float rotation
 		vec2 p2 = (m_verts[i + 1].Rotate(rotation)  * scale) + position;
 
 		renderer.DrawLine(p1.x, p1.y, p2.x, p2.y);
+		if (i == m_verts.size() - 2)
+		{
+			vec2 beg = (m_verts[0].Rotate(rotation) * scale) + position;
+			renderer.DrawLine(p2.x, p2.y, beg.x, beg.y);
+		}
 	}
 }
