@@ -9,6 +9,7 @@
 #include "Math/Vector3.h"
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
+#include "Game/Actor.h"
 
 #include <iostream>
 
@@ -73,8 +74,15 @@ int main(int argc, char* argv[]) {
         { 5, 5 },
         { -5, 5 }
     };
+
     swaws::vec3 color{ 1, 1, 1 };
     swaws::Model model(model_points, color);
+    swaws::Transform transform(swaws::vec2{540, 620}, 0, 2);
+
+    for (int i = 0; i < 10; i++) 
+    {
+        swaws::Actor actor{ transform, model };
+    }
 
     SDL_Event e;
     bool quit = false;
@@ -114,55 +122,35 @@ int main(int argc, char* argv[]) {
         // AUDIO HANDLING && INPUT
 
         // Q = BASS_DRUM
-        if (input.GetKeyDown(SDL_SCANCODE_Q) && !input.GetPreviousKeyDown(SDL_SCANCODE_Q))
-        {
-            // play bass sound, vector elements can be accessed like an array with [#]
-            audio->playSound(sounds[0], 0, false, 0);
-        }
-
+        if (input.GetKeyDown(SDL_SCANCODE_Q) && !input.GetPreviousKeyDown(SDL_SCANCODE_Q)) audio->playSound(sounds[0], 0, false, 0);
         // W = SNARE
-        if (input.GetKeyDown(SDL_SCANCODE_W) && !input.GetPreviousKeyDown(SDL_SCANCODE_W))
-        {
-            audio->playSound(sounds[1], 0, false, 0);
-        }
-
+        if (input.GetKeyDown(SDL_SCANCODE_W) && !input.GetPreviousKeyDown(SDL_SCANCODE_W)) audio->playSound(sounds[1], 0, false, 0);
         // E = OPEN-HAT
-        if (input.GetKeyDown(SDL_SCANCODE_E) && !input.GetPreviousKeyDown(SDL_SCANCODE_E))
-        {
-            audio->playSound(sounds[2], 0, false, 0);
-        }
-
+        if (input.GetKeyDown(SDL_SCANCODE_E) && !input.GetPreviousKeyDown(SDL_SCANCODE_E)) audio->playSound(sounds[2], 0, false, 0);
         // R = CLOSE-HAT
-        if (input.GetKeyDown(SDL_SCANCODE_R) && !input.GetPreviousKeyDown(SDL_SCANCODE_R))
-        {
-            audio->playSound(sounds[3], 0, false, 0);
-        }
-
+        if (input.GetKeyDown(SDL_SCANCODE_R) && !input.GetPreviousKeyDown(SDL_SCANCODE_R)) audio->playSound(sounds[3], 0, false, 0);
         // T = CLAP
-        if (input.GetKeyDown(SDL_SCANCODE_T) && !input.GetPreviousKeyDown(SDL_SCANCODE_T))
-        {
-            audio->playSound(sounds[4], 0, false, 0);
-        }
-
+        if (input.GetKeyDown(SDL_SCANCODE_T) && !input.GetPreviousKeyDown(SDL_SCANCODE_T)) audio->playSound(sounds[4], 0, false, 0);
         // Y = COWBELL
-        if (input.GetKeyDown(SDL_SCANCODE_Y) && !input.GetPreviousKeyDown(SDL_SCANCODE_Y))
-        {
-            audio->playSound(sounds[5], 0, false, 0);
-        }
+        if (input.GetKeyDown(SDL_SCANCODE_Y) && !input.GetPreviousKeyDown(SDL_SCANCODE_Y)) audio->playSound(sounds[5], 0, false, 0);
 
         // Update Engine Systems
         input.Update();
         audio->update();
 
-        swaws::vec2 mouse = input.GetMousePosition();
-        std::cout << mouse.x << "," << mouse.y << std::endl;
+        float speed = 200;
 
-        if (input.GetKeyPressed(SDL_SCANCODE_A)) std::cout << "pressed\n";
+        swaws::vec2 direction{ 0, 0 };
+        if (input.GetKeyDown(SDL_SCANCODE_W)) direction.y = -1;
+        if (input.GetKeyDown(SDL_SCANCODE_S)) direction.y = 1;
+        if (input.GetKeyDown(SDL_SCANCODE_A)) direction.x = -1;
+        if (input.GetKeyDown(SDL_SCANCODE_D)) direction.x = 1;
 
-        if (input.GetMouseButtonDown(swaws::InputSystem::MouseButton::Left)) std::cout << "mouse pressed\n";
-
-        // DRAW
-
+        if (direction.LengthSqr() > 0) 
+        {
+            direction = direction.Normalized();
+            transform.position += (direction * speed) * time.GetDeltaTime();
+        }
         swaws::vec3 color{ 1, 0, 0 };
 
         renderer.Clear(); // Clear the renderer
@@ -173,7 +161,7 @@ int main(int argc, char* argv[]) {
             renderer.SetColor((uint8_t)swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
             renderer.DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
-        model.Draw(renderer, input.GetMousePosition(), swaws::math::halfPi * 0.5f, 5);
+        model.Draw(renderer, transform);
 
 		// Reset color
         renderer.SetColor((uint8_t)0, 0, 0);

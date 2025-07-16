@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "Renderer.h"
 
+
 void swaws::Model::Draw(Renderer& renderer, const vec2& position, float rotation, float scale)
 {
 	renderer.SetColor(color.r, color.g, color.b);
@@ -17,4 +18,9 @@ void swaws::Model::Draw(Renderer& renderer, const vec2& position, float rotation
 			renderer.DrawLine(p2.x, p2.y, beg.x, beg.y);
 		}
 	}
+}
+
+void swaws::Model::Draw(Renderer& renderer, Transform& transform)
+{
+	Draw(renderer, transform.position, transform.rotation, transform.scale);
 }
