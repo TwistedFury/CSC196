@@ -154,15 +154,18 @@
     <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Game\Actor.cpp" />
+    <ClCompile Include="Game\Scene.cpp" />
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Renderer\Model.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AudioSystem.h" />
     <ClInclude Include="Core\File.h" />
     <ClInclude Include="Core\Random.h" />
     <ClInclude Include="Core\Time.h" />
     <ClInclude Include="Game\Actor.h" />
+    <ClInclude Include="Game\Scene.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Transform.h" />

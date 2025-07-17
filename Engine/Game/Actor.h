@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Math/Transform.h"
+#include "../Renderer/Model.h"
+#include <memory>
 
 namespace swaws
 {
@@ -8,7 +10,7 @@ namespace swaws
 	{
 	public:
 		Actor() = default;
-		Actor(const Transform& transform, class Model* model) :
+		Actor(const Transform& transform, std::shared_ptr<Model> model) :
 		m_transform{ transform }, m_model{ model } 
 		{ }
 
@@ -19,6 +21,6 @@ namespace swaws
 
 	private:
 		Transform m_transform;
-		Model* m_model;
+		std::shared_ptr<Model> m_model;
 	};
 }
