@@ -81,9 +81,8 @@ namespace swaws {
 		/// <summary>
 		/// Calculates the length (magnitude) of the 2D vector.
 		/// </summary>
-		/// <param name="other">The vector whose length is to be calculated.</param>
 		/// <returns>The length of the vector as a floating-point value.</returns>
-		float Length(const Vector2& other) const {
+		float Length() const {
 			return swaws::math::sqrtf(LengthSqr());
 		}
 
@@ -101,7 +100,7 @@ namespace swaws {
 		/// Returns a normalized (unit length) version of the vector.
 		/// </summary>
 		/// <returns>A Vector2 representing the direction of the original vector with a length of 1.</returns>
-		Vector2 Normalized() const { return *this / Length(); }
+		Vector2 Normalized() const { return *this * (1 / Length()); }
 
 		/// <summary>
 		/// Calculates the angle in radians from the origin to the point (x, y).

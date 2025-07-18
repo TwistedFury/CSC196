@@ -9,6 +9,7 @@
 #include "Math/Vector3.h"
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
 #include "Game/Actor.h"
 #include "Game/Scene.h"
 
@@ -19,28 +20,6 @@
 
 static void LoadSounds(FMOD::System* audio, std::vector<FMOD::Sound*>& sounds)
 {
-    void* extradriverdata = nullptr;
-    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
-
-    FMOD::Sound* sound = nullptr;
-
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
 }
 
 int main(int argc, char* argv[]) {
@@ -58,13 +37,10 @@ int main(int argc, char* argv[]) {
 
     // Initialize Audio
     // create audio system
-    std::unique_ptr<FMOD::System> audio = std::make_unique<FMOD::System>();
-    FMOD::System_Create(&audio);
-
+    std::unique_ptr<swaws::AudioSystem> audio = std::make_unique<swaws::AudioSystem>();
 
     // Loading Drum Sounds
-    std::vector<FMOD::Sound*> sounds;
-    LoadSounds(*audio, sounds);
+    audio->LoadSounds();
 
     swaws::vec2 v(30, 40);
 
@@ -111,7 +87,7 @@ int main(int argc, char* argv[]) {
             input->GetKeyDown(SDL_SCANCODE_LSHIFT)) {
             swaws::vec2 position = input->GetMousePosition();
             if (points.empty()) points.push_back(position);
-            else if (position.Length(points.back()) > 10) points.push_back(position);
+            else if ((position.Length() - points.back().Length()) > 10) points.push_back(position);
         }
 
         // UNDO
@@ -124,21 +100,21 @@ int main(int argc, char* argv[]) {
         // AUDIO HANDLING && INPUT
 
         // Q = BASS_DRUM
-        if (input->GetKeyDown(SDL_SCANCODE_Q) && !input->GetPreviousKeyDown(SDL_SCANCODE_Q)) audio->playSound(sounds[0], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_Q) && !input->GetPreviousKeyDown(SDL_SCANCODE_Q)) audio->playSound(0, 0, false, 0);
         // W = SNARE
-        if (input->GetKeyDown(SDL_SCANCODE_W) && !input->GetPreviousKeyDown(SDL_SCANCODE_W)) audio->playSound(sounds[1], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_W) && !input->GetPreviousKeyDown(SDL_SCANCODE_W)) audio->playSound(1, 0, false, 0);
         // E = OPEN-HAT
-        if (input->GetKeyDown(SDL_SCANCODE_E) && !input->GetPreviousKeyDown(SDL_SCANCODE_E)) audio->playSound(sounds[2], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_E) && !input->GetPreviousKeyDown(SDL_SCANCODE_E)) audio->playSound(2, 0, false, 0);
         // R = CLOSE-HAT
-        if (input->GetKeyDown(SDL_SCANCODE_R) && !input->GetPreviousKeyDown(SDL_SCANCODE_R)) audio->playSound(sounds[3], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_R) && !input->GetPreviousKeyDown(SDL_SCANCODE_R)) audio->playSound(3, 0, false, 0);
         // T = CLAP
-        if (input->GetKeyDown(SDL_SCANCODE_T) && !input->GetPreviousKeyDown(SDL_SCANCODE_T)) audio->playSound(sounds[4], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_T) && !input->GetPreviousKeyDown(SDL_SCANCODE_T)) audio->playSound(4, 0, false, 0);
         // Y = COWBELL
-        if (input->GetKeyDown(SDL_SCANCODE_Y) && !input->GetPreviousKeyDown(SDL_SCANCODE_Y)) audio->playSound(sounds[5], 0, false, 0);
+        if (input->GetKeyDown(SDL_SCANCODE_Y) && !input->GetPreviousKeyDown(SDL_SCANCODE_Y)) audio->playSound(5, 0, false, 0);
 
         // Update Engine Systems
         input->Update();
-        audio->update();
+        audio->Update();
 
         float speed = 200;
 

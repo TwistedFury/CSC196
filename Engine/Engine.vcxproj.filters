@@ -50,6 +50,9 @@
     <ClCompile Include="Game\Scene.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\AudioSystem.cpp">
+      <Filter>Source\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Random.h">
