@@ -25,3 +25,8 @@ void swaws::AudioSystem::LoadSounds()
     audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
     sounds.push_back(sound);
 }
+
+void swaws::AudioSystem::Update()
+{
+
+}
