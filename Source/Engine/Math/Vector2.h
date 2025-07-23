@@ -35,6 +35,17 @@ namespace swaws {
 		}
 
 		/// <summary>
+		/// Adds a value to both components of the vector and assigns the result to this vector.
+		/// </summary>
+		/// <param name="valueToAdd">The value to add to both the x and y components.</param>
+		/// <returns>A reference to this vector after the addition.</returns>
+		Vector2& operator+=(T valueToAdd) {
+			x += valueToAdd;
+			y += valueToAdd;
+			return *this;
+		}
+
+		/// <summary>
 		/// Subtracts the components of another Vector2 from this Vector2.
 		/// </summary>
 		/// <param name="rhs">The Vector2 to subtract from this Vector2.</param>

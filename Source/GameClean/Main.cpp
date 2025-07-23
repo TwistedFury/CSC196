@@ -10,8 +10,8 @@
 #include "Core/Time.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
-#include "Game/Actor.h"
-#include "Game/Scene.h"
+#include "Framework/Actor.h"
+#include "Framework/Scene.h"
 
 #include "Game/Player.h"
 

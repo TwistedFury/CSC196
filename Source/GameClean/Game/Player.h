@@ -1,9 +1,13 @@
 #pragma once
 
-#include "Game/Actor.h" 
+#include "Framework/Actor.h" 
 
 class Player : public swaws::Actor
 {
+public:
+	float speed = 200;
+	float rotationRate = 180;
+	float damping = 0.5f;
 public:
 	Player() = default;
 	

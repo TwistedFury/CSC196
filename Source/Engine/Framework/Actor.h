@@ -22,5 +22,7 @@ namespace swaws
 	private:
 		Transform m_transform;
 		std::shared_ptr<Model> m_model;
+		float velocity = 0;
+		float damping = 0;
 	};
 }
