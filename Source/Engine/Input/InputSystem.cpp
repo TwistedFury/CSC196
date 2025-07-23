@@ -2,6 +2,10 @@
 #include <SDL3/SDL.h>
 
 namespace swaws {
+	/// <summary>
+	/// Initializes the input system by capturing the current keyboard and mouse states.
+	/// </summary>
+	/// <returns>Returns true if the input system was successfully initialized.</returns>
 	bool InputSystem::Initialize() 
 	{
 		int numKeys;
@@ -23,6 +27,9 @@ namespace swaws {
 		// 
 	}
 
+	/// <summary>
+	/// Updates the current and previous states of the keyboard and mouse input devices.
+	/// </summary>
 	void InputSystem::Update()
 	{
 		// KEYBOARD

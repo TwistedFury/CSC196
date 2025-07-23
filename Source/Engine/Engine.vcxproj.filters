@@ -27,6 +27,9 @@
     <Filter Include="Source\Framework">
       <UniqueIdentifier>{b6fe6fac-193f-4086-a589-f40331aa072c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Include">
+      <UniqueIdentifier>{4f9b1a05-f040-4445-bb69-49b510914bb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInc.h">
+      <Filter>Source\Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
