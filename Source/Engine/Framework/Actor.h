@@ -19,7 +19,7 @@ namespace swaws
 
 		Transform& GetTransform() { return m_transform; }
 
-	private:
+	protected:
 		Transform m_transform;
 		std::shared_ptr<Model> m_model;
 		float velocity = 0;

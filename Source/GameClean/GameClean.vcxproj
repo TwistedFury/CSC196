@@ -133,11 +133,18 @@
   <ItemGroup>
     <ClCompile Include="Game\Enemy.cpp" />
     <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="Game\SpaceGame.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="Game\SpaceGame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{7ee13cdf-a0f1-489e-be51-ef215cf910f9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

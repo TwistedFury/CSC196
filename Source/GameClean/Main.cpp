@@ -1,66 +1,24 @@
+#pragma once
 #include <SDL3/SDL.h>
 #include <fmod.hpp>
 
-#include "Renderer/Renderer.h"
-#include "Renderer/Model.h"
-#include "Core/Random.h"
-#include "Math/Math.h"
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
-#include "Core/Time.h"
-#include "Input/InputSystem.h"
-#include "Audio/AudioSystem.h"
-#include "Framework/Actor.h"
-#include "Framework/Scene.h"
+#include "EngineInc.h"
 
 #include "Game/Player.h"
+#include "Game/SpaceGame.h"
 
 #include <iostream>
 #include <memory>
 
-static void LoadSounds(FMOD::System* audio, std::vector<FMOD::Sound*>& sounds)
-{
-}
-
 int main(int argc, char* argv[]) {
     // Initialize Engine Systems
+    swaws::GetEngine().Initialize();
 
-    swaws::Time time;
-
-    std::unique_ptr<swaws::Renderer> renderer = std::make_unique<swaws::Renderer>();
-
-    renderer->Initialize();
-    renderer->CreateWindow("Swaws Engine", 1280, 1024); 
-
-    std::unique_ptr<swaws::InputSystem> input = std::make_unique<swaws::InputSystem>();
-    input->Initialize();
-
-    // Initialize Audio
-    // create audio system
-    std::unique_ptr<swaws::AudioSystem> audio = std::make_unique<swaws::AudioSystem>();
-
-    // Loading Drum Sounds
-    audio->LoadSounds();
+    // Initialize Game
+    std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+    game->Initialize();
 
     swaws::vec2 v(30, 40);
-
-    std::vector<swaws::vec2> model_points{
-        { -5, -5 },
-        { 5, -5 },
-        { 5, 5 },
-        { -5, 5 },
-        {-5, -5}
-    };
-
-    std::shared_ptr<swaws::Model> model = std::make_shared < swaws::Model>(model_points, swaws::vec3{ 0, 1, 1 });
-
-    swaws::Scene scene;
-    for (int i = 0; i < 10; i++) 
-    {
-        swaws::Transform transform(swaws::vec2{ swaws::random::GetRandomFloat() * 1280, swaws::random::GetRandomFloat() * 1020});
-        std::unique_ptr<Player> player = std::make_unique<Player>(transform, model);
-        scene.AddActor(std::move(player));
-    }
 
     SDL_Event e;
     bool quit = false;
@@ -69,29 +27,31 @@ int main(int argc, char* argv[]) {
 
     // MAIN LOOP
     while (!quit) {
-        time.Tick();
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
         }
 
+        swaws::GetEngine().Update();
+        game->Update();
+
         // STEP ONE (CLICK)
-        if (input->GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&
-            !input->GetKeyDown(SDL_SCANCODE_LSHIFT)) {
-            points.push_back(input->GetMousePosition());
+        if (swaws::GetEngine().GetInputSystem().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&
+            !swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            points.push_back(swaws::GetEngine().GetInputSystem().GetMousePosition());
         }
 
         // STEP TWO (&DRAG)
-        if (input->GetMouseButtonDown(swaws::InputSystem::MouseButton::Left) &&
-            input->GetKeyDown(SDL_SCANCODE_LSHIFT)) {
-            swaws::vec2 position = input->GetMousePosition();
+        if (swaws::GetEngine().GetInputSystem().GetMouseButtonDown(swaws::InputSystem::MouseButton::Left) &&
+            swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            swaws::vec2 position = swaws::GetEngine().GetInputSystem().GetMousePosition();
             if (points.empty()) points.push_back(position);
             else if ((position.Length() - points.back().Length()) > 10) points.push_back(position);
         }
 
         // UNDO
-        if (input->GetKeyPressed(SDL_SCANCODE_Z) && input->GetKeyDown(SDL_SCANCODE_LCTRL)) {
+        if (swaws::GetEngine().GetInputSystem().GetKeyPressed(SDL_SCANCODE_Z) && swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LCTRL)) {
             if (!points.empty()) {
                 points.pop_back();
             }
@@ -100,61 +60,39 @@ int main(int argc, char* argv[]) {
         // AUDIO HANDLING && INPUT
 
         // Q = BASS_DRUM
-        if (input->GetKeyDown(SDL_SCANCODE_Q) && !input->GetPreviousKeyDown(SDL_SCANCODE_Q)) audio->playSound(0, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_Q) && !input->GetPreviousKeyDown(SDL_SCANCODE_Q)) audio->playSound(0, 0, false, 0);
         // W = SNARE
-        if (input->GetKeyDown(SDL_SCANCODE_W) && !input->GetPreviousKeyDown(SDL_SCANCODE_W)) audio->playSound(1, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_W) && !input->GetPreviousKeyDown(SDL_SCANCODE_W)) audio->playSound(1, 0, false, 0);
         // E = OPEN-HAT
-        if (input->GetKeyDown(SDL_SCANCODE_E) && !input->GetPreviousKeyDown(SDL_SCANCODE_E)) audio->playSound(2, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_E) && !input->GetPreviousKeyDown(SDL_SCANCODE_E)) audio->playSound(2, 0, false, 0);
         // R = CLOSE-HAT
-        if (input->GetKeyDown(SDL_SCANCODE_R) && !input->GetPreviousKeyDown(SDL_SCANCODE_R)) audio->playSound(3, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_R) && !input->GetPreviousKeyDown(SDL_SCANCODE_R)) audio->playSound(3, 0, false, 0);
         // T = CLAP
-        if (input->GetKeyDown(SDL_SCANCODE_T) && !input->GetPreviousKeyDown(SDL_SCANCODE_T)) audio->playSound(4, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_T) && !input->GetPreviousKeyDown(SDL_SCANCODE_T)) audio->playSound(4, 0, false, 0);
         // Y = COWBELL
-        if (input->GetKeyDown(SDL_SCANCODE_Y) && !input->GetPreviousKeyDown(SDL_SCANCODE_Y)) audio->playSound(5, 0, false, 0);
+        // if (input->GetKeyDown(SDL_SCANCODE_Y) && !input->GetPreviousKeyDown(SDL_SCANCODE_Y)) audio->playSound(5, 0, false, 0);
 
-        // Update Engine Systems
-        input->Update();
-        audio->Update();
-
-        float speed = 200;
-
-        swaws::vec2 direction{ 0, 0 };
-        if (input->GetKeyDown(SDL_SCANCODE_W)) direction.y = -1;
-        if (input->GetKeyDown(SDL_SCANCODE_S)) direction.y = 1;
-        if (input->GetKeyDown(SDL_SCANCODE_A)) direction.x = -1;
-        if (input->GetKeyDown(SDL_SCANCODE_D)) direction.x = 1;
-
-        if (direction.LengthSqr() > 0) 
-        {
-            direction = direction.Normalized();
-            for (auto& act : scene.GetActors())
-            {
-                act->GetTransform().position += (direction * speed) * time.GetDeltaTime();
-            }
-        }
         swaws::vec3 color{ 0, 0, 0 };
 
-        renderer->Clear(); // Clear the renderer
+        swaws::GetEngine().GetRenderer().Clear(); // Clear the renderer
 
         for (int i = 0; i < (int)points.size() - 1; i++) {
             // set color or random color
             // I choose random
-            renderer->SetColor((uint8_t)swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
-            renderer->DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+            swaws::GetEngine().GetRenderer().SetColor((uint8_t)swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+            swaws::GetEngine().GetRenderer().DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
 
-        for (auto& act : scene.GetActors())
-        {
-            act->Draw(*renderer);
-        }
+        // Draw Actors
+        game->Draw();
 
 		// Reset color
-        renderer->SetColor((uint8_t)0, 0, 0);
-        renderer->Present();
+        swaws::GetEngine().GetRenderer().SetColor((uint8_t)0, 0, 0);
+        swaws::GetEngine().GetRenderer().Present();
 
     }
 
-    renderer->ShutDown();
+    swaws::GetEngine().Shutdown();
 
     return 0;
 }
