@@ -6,6 +6,7 @@
 #include "Core/Time.h"
 #include "Framework/Actor.h"
 #include "Framework/Scene.h"
+#include "Framework/Game.h"
 #include "Input/InputSystem.h"
 #include "Math/Math.h"
 #include "Math/Transform.h"
