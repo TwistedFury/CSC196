@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <string>
 
@@ -25,6 +26,7 @@ namespace swaws {
 		const int GetWindowWidth() { return windowWidth; }
 		const int GetWindowHeight() { return windowHeight; }
 	private:
+		friend class Text; // Allows Text class to access private data
 		SDL_Window* m_window = nullptr;
 		SDL_Renderer* m_renderer = nullptr;
 

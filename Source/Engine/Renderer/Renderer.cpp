@@ -3,14 +3,24 @@
 
 namespace swaws {
     /// <summary>
-    /// Initializes the renderer by setting up the SDL video subsystem.
+    /// Initializes the renderer by setting up SDL and SDL_ttf subsystems.
     /// </summary>
-    /// <returns>True if initialization succeeds; false if an error occurs.</returns>
+    /// <returns>true if initialization succeeds; false if an error occurs during SDL or TTF initialization.</returns>
     bool Renderer::Initialize()
     {
         if (!SDL_Init(SDL_INIT_VIDEO))
         {
             std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+
+        if (!SDL_Init(SDL_INIT_VIDEO)) {
+            std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+            return false;
+        }
+
+        if (!TTF_Init()) {
+            std::cerr << "TTF_Init Error: " << SDL_GetError() << std::endl;
             return false;
         }
         return true;
@@ -21,6 +31,7 @@ namespace swaws {
     /// </summary>
     void Renderer::ShutDown()
     {
+        TTF_Quit();
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
         SDL_Quit();

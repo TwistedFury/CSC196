@@ -14,4 +14,6 @@
 #include "Math/Vector3.h"
 #include "Renderer/Model.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
 #include "Engine.h"
