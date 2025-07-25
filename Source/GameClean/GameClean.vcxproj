@@ -70,18 +70,36 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Binaries\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source/Engine;$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc;$(SolutionDir)Source/Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\ThirdParty\SDL3\lib\$(PlatformTarget);$(SolutionDir)Source\ThirdParty\fmod\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;sdl3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,12 +110,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source/Engine;$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc;$(SolutionDir)Source/Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\ThirdParty\SDL3\lib\$(PlatformTarget);$(SolutionDir)Source\ThirdParty\fmod\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;sdl3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,12 +126,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source/Engine;$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc;$(SolutionDir)Source/Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\ThirdParty\SDL3\lib\$(PlatformTarget);$(SolutionDir)Source\ThirdParty\fmod\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;sdl3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,12 +144,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source/Engine;$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/ThirdParty/SDL3/include;$(SolutionDir)Source/ThirdParty/fmod/core/inc;$(SolutionDir)Source/Engine</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Source\ThirdParty\SDL3\lib\$(PlatformTarget);$(SolutionDir)Source\ThirdParty\fmod\core\lib\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;sdl3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

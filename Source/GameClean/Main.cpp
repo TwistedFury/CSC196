@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     SDL_Event e;
     bool quit = false;
 
-    std::vector<swaws::vec2> points;
+    std::vector<swaws::vec2> points; // These are used for drawing rn
 
     // MAIN LOOP
     while (!quit) {
