@@ -22,4 +22,13 @@ namespace GameData
     { -3, 2 },
     { -8, 0 }
     };
+
+    std::vector<swaws::vec2> rocketPoints{
+    { 4, 0 },
+    { 1, -1 },
+    { -2, -1 },
+    { -2, 1 },
+    { 1, 1 },
+    { 4, 0 },
+    };
 }

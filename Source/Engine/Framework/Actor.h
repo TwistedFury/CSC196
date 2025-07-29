@@ -17,6 +17,10 @@ namespace swaws
 		vec2 velocity{ 0, 0 };
 		float damping{ 0.3f };
 
+		bool destroyed{ false };
+		float lifespan{ 0 };
+
+		Transform m_transform;
 		class Scene* scene{ nullptr };
 	public:
 		Actor() = default;
@@ -27,10 +31,13 @@ namespace swaws
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
+		// GetTransform has depracated
 		Transform& GetTransform() { return m_transform; }
+		float GetRadius();
+
+		virtual void OnCollision(Actor* other) = 0;
 
 	protected:
-		Transform m_transform;
 		std::shared_ptr<class Model> m_model;
 	};
 }

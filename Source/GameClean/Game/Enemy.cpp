@@ -23,3 +23,12 @@ void Enemy::Update(float dt)
 
     Actor::Update(dt);
 }
+
+void Enemy::OnCollision(Actor* other)
+{
+    if (tag != other->tag)
+    {
+        destroyed = true;
+        scene->GetGame()->AddPoints(100);
+    }
+}

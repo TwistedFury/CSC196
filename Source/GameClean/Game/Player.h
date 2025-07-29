@@ -6,6 +6,9 @@ class Player : public swaws::Actor
 {
 public:
 	float rotationRate = 180;
+
+	float fireTime = 0.2f;
+	float fireTimer = 0;
 public:
 	Player() = default;
 	
@@ -13,6 +16,6 @@ public:
 		swaws::Actor{ transform, model } { this->damping = 0.2f; }
 
 	void Update(float dt) override;
-	
-private:
+
+	void OnCollision(Actor* other) override;
 };

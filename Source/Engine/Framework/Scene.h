@@ -2,15 +2,17 @@
 
 #include <vector>
 #include <string>
+#include <list>
 #include <memory>
 #include "../Core/StringHelper.h"
 
 namespace swaws
 {
+	class Game;
 	class Scene
 	{
 	public:
-		Scene() = default;
+		Scene(Game* game) : m_game{ game } {}
 
 		void Update(float dt);
 		void Draw(class Renderer& renderer);
@@ -18,7 +20,7 @@ namespace swaws
 		void AddActor(std::unique_ptr<class Actor> act);
 		void RemoveAllActors();
 
-		std::vector<std::unique_ptr<class Actor>>& GetActors() { return m_actors; }
+		std::list<std::unique_ptr<class Actor>>& GetActors() { return m_actors; }
 
 		template <typename T = Actor>
 		T* GetActorByName(const std::string& name);
@@ -26,8 +28,11 @@ namespace swaws
 		template <typename T = Actor>
 		std::vector<T*> GetActorsByTag(const std::string& tag);
 
+		Game* GetGame() { return m_game; }
+
 	private:
-		std::vector<std::unique_ptr<class Actor>> m_actors;
+		Game* m_game{ nullptr };
+		std::list<std::unique_ptr<class Actor>> m_actors;
 	};
 
 	using swaws::tolower;

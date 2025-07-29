@@ -12,9 +12,33 @@ namespace swaws
 	/// <param name="dt">The time elapsed since the last update, in seconds.</param>
 	void Scene::Update(float dt)
 	{
+		// Update All Actors
 		for (auto& act : m_actors)
 		{
 			act->Update(dt);
+		}
+
+		// Remove Destroyed Actors
+		for (auto iter = m_actors.begin(); iter != m_actors.end();)
+		{
+			if ((*iter)->destroyed) m_actors.erase(iter);
+			else iter++;
+		}
+
+		// Check for collisions
+		for (auto& actorA : m_actors)
+		{
+			for (auto& actorB : m_actors)
+			{
+				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
+				
+				float distance = (actorA->m_transform.position - actorB->m_transform.position).Length();
+				if (distance <= (actorA->GetRadius() + actorB->GetRadius()))
+				{
+					actorA->OnCollision(actorB.get());
+					actorB->OnCollision(actorA.get());
+				}
+			}
 		}
 	}
 

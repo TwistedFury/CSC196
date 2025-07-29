@@ -10,6 +10,14 @@ namespace swaws
 	/// <param name="dt">The elapsed time since the last update, in seconds.</param>
 	void Actor::Update(float dt)
 	{
+		if (destroyed) return;
+
+		if (lifespan != 0)
+		{
+			lifespan -= dt;
+			destroyed = lifespan <= 0;
+		}
+
 		m_transform.position += velocity * dt;
 		velocity *= (1.0f / (1.0f + damping * dt));
 	}
@@ -20,6 +28,11 @@ namespace swaws
 	/// <param name="renderer">The renderer used to draw the actor.</param>
 	void Actor::Draw(Renderer& renderer)
 	{
+		if (destroyed) return;
 		m_model->Draw(renderer, m_transform);
+	}
+	float Actor::GetRadius()
+	{
+		return (m_model) ? m_model->GetRadius() * m_transform.scale : 0;
 	}
 }

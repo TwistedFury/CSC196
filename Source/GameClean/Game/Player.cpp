@@ -1,13 +1,8 @@
 #pragma once
 #include "Player.h"
 #include "Rocket.h"
-#include "Engine.h"
-#include "Input/InputSystem.h"
-#include "Renderer/Renderer.h"
-#include "Math/Math.h"
-#include "Core/Time.h"
-#include "Framework/Scene.h"
-#include "SDL3/SDL.h"
+#include "GameData.h"
+#include "EngineInc.h"
 
 void Player::Update(float dt)
 {
@@ -31,14 +26,28 @@ void Player::Update(float dt)
     m_transform.position.y = swaws::math::wrap((float)m_transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
     // Check for Rocket Fire
-    if (swaws::GetEngine().GetInputSystem().GetKeyPressed(SDL_SCANCODE_E) || swaws::GetEngine().GetInputSystem().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left))
+    if ((swaws::GetEngine().GetInputSystem().GetKeyPressed(SDL_SCANCODE_E) || swaws::GetEngine().GetInputSystem().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left)) && fireTimer <= 0)
     {
+        fireTimer = fireTime;
         // Spawn rocket in direction facing
-        std::unique_ptr<Rocket> rocket = std::make_unique<Rocket>();
-        rocket->GetTransform().position = m_transform.position;
-        rocket->GetTransform().rotation = m_transform.rotation;
+        std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::rocketPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
+        swaws::Transform transform(this->m_transform.position, swaws::math::DegToRad(this->m_transform.rotation), 5);
+        std::unique_ptr<Rocket> rocket = std::make_unique<Rocket>(transform, model);
+        rocket->speed = 750; // Set Speed
+        rocket->lifespan = 1.5f;
+        rocket->tag = "player"; // Set Tag
+        rocket->name = "rocket";
+
         scene->AddActor(std::move(rocket));
     }
-
+    fireTimer--;
     Actor::Update(dt);
+}
+
+void Player::OnCollision(Actor* other)
+{
+    if (tag != other->tag)
+    {
+        destroyed = true;
+    }
 }

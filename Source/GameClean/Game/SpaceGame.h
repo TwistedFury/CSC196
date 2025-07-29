@@ -1,5 +1,7 @@
 #pragma once
 #include "Framework/Game.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
 
 class SpaceGame : public swaws::Game
 {
@@ -25,4 +27,11 @@ public:
 private:
 	GameState m_gameState{ GameState::Initialize };
 	float m_enemySpawnTimer{ 0 };
+
+	std::shared_ptr<swaws::Font> m_titleFont;
+	std::shared_ptr<swaws::Font> m_uiFont;
+
+	std::unique_ptr<swaws::Text> m_titleText;
+	std::unique_ptr<swaws::Text> m_scoreText;
+	std::unique_ptr<swaws::Text> m_livesText;
 };

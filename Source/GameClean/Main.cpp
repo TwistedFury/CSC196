@@ -19,11 +19,6 @@ int main(int argc, char* argv[]) {
     swaws::Font* font = new swaws::Font();
     font->Load("MotionPicture_PersonalUseOnly.ttf", 40);
 
-    // Create Text
-    swaws::Text* text = new swaws::Text(font);
-    text->Create(swaws::GetEngine().GetRenderer(), "Hello World!", swaws::vec3{ 1, 1, 1 });
-
-
     // Initialize Game
     std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
     game->Initialize();
@@ -96,15 +91,14 @@ int main(int argc, char* argv[]) {
         // Draw Actors
         game->Draw();
 
-        // Draw Text
-        text->Draw(swaws::GetEngine().GetRenderer(), 40, 40);
-
 		// Reset color
         swaws::GetEngine().GetRenderer().SetColor((uint8_t)0, 0, 0);
         swaws::GetEngine().GetRenderer().Present();
 
     }
 
+    game->Shutdown();
+    game.release();
     swaws::GetEngine().Shutdown();
 
     return 0;

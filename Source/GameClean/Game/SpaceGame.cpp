@@ -10,7 +10,18 @@
 
 bool SpaceGame::Initialize()
 {
-    scene = std::make_unique<swaws::Scene>();
+    scene = std::make_unique<swaws::Scene>(this);
+
+    m_titleFont = std::make_shared<swaws::Font>();
+    m_titleFont->Load("font.ttf", 128);
+
+    m_uiFont = std::make_shared<swaws::Font>();
+    m_uiFont->Load("font.ttf", 48);
+
+    m_titleText = std::make_unique<swaws::Text>(m_titleFont);
+    m_scoreText = std::make_unique<swaws::Text>(m_uiFont);
+    m_livesText = std::make_unique<swaws::Text>(m_uiFont);
+
     return true;
 }
 
@@ -53,8 +64,8 @@ void SpaceGame::Update(float dt)
             std::shared_ptr<swaws::Model> enemyModel = std::make_shared <swaws::Model>(GameData::enemyPoints, swaws::vec3{ 1.0f, 1.0f, 0.0f });
             swaws::Transform transform{ swaws::vec2{ swaws::random::GetRandomFloat() * swaws::GetEngine().GetRenderer().GetWindowWidth(), swaws::random::GetRandomFloat() * swaws::GetEngine().GetRenderer().GetWindowHeight()}, 0, 5 };
             std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
-            enemy->damping = 100;
-            enemy->speed = (swaws::random::GetRandomFloat() * 10000) + 700;
+            enemy->damping = 0.2f;
+            enemy->speed = 0;//(swaws::random::GetRandomFloat() * 10000) + 700;
             if (enemy->speed > 1500) enemy->speed = 1500;
             enemy->tag = "enemy";
             scene->AddActor(std::move(enemy));
