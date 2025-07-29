@@ -11,7 +11,9 @@ namespace swaws
 	public:
 		std::string name;
 		std::string tag;
+
 		float speed = 200;
+
 		vec2 velocity{ 0, 0 };
 		float damping{ 0.3f };
 

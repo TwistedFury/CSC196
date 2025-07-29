@@ -10,7 +10,7 @@ namespace swaws
 		Game() = default;
 		
 		virtual bool Initialize() = 0;
-		virtual void Update() = 0;
+		virtual void Update(float dt) = 0;
 		virtual void Draw() = 0;
 		virtual void Shutdown() = 0;
 

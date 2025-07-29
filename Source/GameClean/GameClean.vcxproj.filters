@@ -22,6 +22,12 @@
     <ClCompile Include="Game\SpaceGame.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameData.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Rocket.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Player.h">
@@ -31,6 +37,12 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\SpaceGame.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameData.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Rocket.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,19 +1,10 @@
-#pragma once
+#include "Rocket.h"
 #include "EngineInc.h"
 #include "Enemy.h"
 #include "Player.h"
 
-void Enemy::Update(float dt)
+void Rocket::Update(float dt)
 {
-    Player* player = scene->GetActorByName<Player>("player");
-    if (player)
-    {
-        swaws::vec2 direction{ 0, 0 }; 
-        direction = player->GetTransform().position - m_transform.position;
-        direction = direction.Normalized();
-        m_transform.rotation = swaws::math::RadToDeg(direction.Angle());
-    }
-
     swaws::vec2 direction{ 1, 0 };
     swaws::vec2 force = direction.Rotate(swaws::math::DegToRad(m_transform.rotation)) * speed;
     velocity += force * dt;
@@ -23,3 +14,4 @@ void Enemy::Update(float dt)
 
     Actor::Update(dt);
 }
+

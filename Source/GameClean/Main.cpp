@@ -11,6 +11,7 @@
 #include <memory>
 
 int main(int argc, char* argv[]) {
+
     // Initialize Engine Systems
     swaws::GetEngine().Initialize();
 
@@ -43,7 +44,7 @@ int main(int argc, char* argv[]) {
         }
 
         swaws::GetEngine().Update();
-        game->Update();
+        game->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 
         // STEP ONE (CLICK)
         if (swaws::GetEngine().GetInputSystem().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&

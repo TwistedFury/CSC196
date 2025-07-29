@@ -3,7 +3,6 @@
 #include "Scene.h"
 #include "Actor.h"
 #include "../Renderer/Renderer.h"
-#include "../Core/StringHelper.h"
 
 namespace swaws
 {
@@ -41,18 +40,9 @@ namespace swaws
 		m_actors.push_back(std::move(act));
 	}
 
-	/// <summary>
-	/// Retrieves an actor from the scene by its name.
-	/// </summary>
-	/// <param name="name">The name of the actor to search for.</param>
-	/// <returns>A pointer to the actor with the specified name, or nullptr if no such actor exists.</returns>
-	Actor* Scene::GetActorByName(const std::string& name)
+	void Scene::RemoveAllActors()
 	{
-		for (auto& actor : m_actors)
-		{
-			if (tolower(actor->name) == tolower(name)) return actor.get();
-		}
-		return nullptr;
+		m_actors.clear();
 	}
 
 }
