@@ -4,6 +4,7 @@
 #include "Core/File.h"
 #include "Core/Random.h"
 #include "Core/Time.h"
+#include "Core/StringHelper.h"
 #include "Framework/Actor.h"
 #include "Framework/Scene.h"
 #include "Framework/Game.h"

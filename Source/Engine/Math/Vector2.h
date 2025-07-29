@@ -102,9 +102,18 @@ namespace swaws {
 		/// </summary>
 		/// <param name="scalar">The scalar value to multiply the vector by.</param>
 		/// <returns>A new Vector2 instance with both components multiplied by the scalar.</returns>
-		Vector2 operator*(float scalar) const {
+		Vector2 operator*(T scalar) const {
 			Vector2<float> m_scalar{ scalar, scalar };
 			return (*this) * m_scalar;
+		}
+
+		/// <summary>
+		/// Returns a new Vector2 that is the result of multiplying this vector by a scalar value.
+		/// </summary>
+		/// <param name="scalar">The scalar value to multiply the vector by.</param>
+		/// <returns>A new Vector2 representing the product of this vector and the scalar.</returns>
+		Vector2 operator*= (const T scalar) const {
+			return (*this) * scalar;
 		}
 
 		/// <summary>

@@ -5,7 +5,6 @@
 class Player : public swaws::Actor
 {
 public:
-	float speed = 200;
 	float rotationRate = 180;
 public:
 	Player() = default;

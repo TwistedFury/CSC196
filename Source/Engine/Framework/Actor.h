@@ -11,8 +11,11 @@ namespace swaws
 	public:
 		std::string name;
 		std::string tag;
-
+		float speed = 200;
 		vec2 velocity{ 0, 0 };
+		float damping{ 0.3f };
+
+		class Scene* scene{ nullptr };
 	public:
 		Actor() = default;
 		Actor(const Transform& transform, std::shared_ptr<class Model> model) :
@@ -26,7 +29,6 @@ namespace swaws
 
 	protected:
 		Transform m_transform;
-		std::shared_ptr<Model> m_model;
-		float damping = 0;
+		std::shared_ptr<class Model> m_model;
 	};
 }

@@ -3,6 +3,8 @@
 
 #include "Engine.h"
 #include "Input/InputSystem.h"
+#include "Renderer/Renderer.h"
+#include "Math/Math.h"
 #include "Core/Time.h"
 
 #include "SDL3/SDL.h"
@@ -25,16 +27,8 @@ void Player::Update(float dt)
     swaws::vec2 force = direction.Rotate(swaws::math::DegToRad(m_transform.rotation)) * thrust * speed;
     velocity += force * dt;
 
+    m_transform.position.x = swaws::math::wrap((float)m_transform.position.x, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
+    m_transform.position.y = swaws::math::wrap((float)m_transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
+
     Actor::Update(dt);
-
-    //if (swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_W)) direction.y = -1;
-    //if (swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_S)) direction.y = +1;
-    //if (swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_A)) direction.x = -1;
-    //if (swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_D)) direction.x = +1;
-
-    //if (direction.LengthSqr() > 0)
-    //{
-    //    direction = direction.Normalized();
-    //    m_transform.position += (direction * speed) * dt;
-    //}
 }
