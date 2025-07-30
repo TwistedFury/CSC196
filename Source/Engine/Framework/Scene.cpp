@@ -21,7 +21,7 @@ namespace swaws
 		// Remove Destroyed Actors
 		for (auto iter = m_actors.begin(); iter != m_actors.end();)
 		{
-			if ((*iter)->destroyed) m_actors.erase(iter);
+			if ((*iter)->destroyed) iter = m_actors.erase(iter);
 			else iter++;
 		}
 

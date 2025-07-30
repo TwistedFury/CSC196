@@ -31,7 +31,7 @@ void Player::Update(float dt)
         fireTimer = fireTime;
         // Spawn rocket in direction facing
         std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::rocketPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
-        swaws::Transform transform(this->m_transform.position, swaws::math::DegToRad(this->m_transform.rotation), 5);
+        swaws::Transform transform(this->m_transform.position, this->m_transform.rotation, 5);
         std::unique_ptr<Rocket> rocket = std::make_unique<Rocket>(transform, model);
         rocket->speed = 750; // Set Speed
         rocket->lifespan = 1.5f;

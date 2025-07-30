@@ -30,6 +30,46 @@ int main(int argc, char* argv[]) {
 
     std::vector<swaws::vec2> points; // These are used for drawing rn
 
+    // Get current directory path
+    std::cout << "Directory Operations:\n";
+    std::cout << "Current directory: " << swaws::file::GetCurrentDirectory() << "\n";
+
+    // Set current directory path (current path + "Assets")
+    std::cout << "Setting directory to 'Assets'...\n";
+    swaws::file::SetCurrentDirectory("Assets");
+    std::cout << "New directory: " << swaws::file::GetCurrentDirectory() << "\n\n";
+
+    // Get filenames in the current directory
+    std::cout << "Files in Directory:\n";
+    auto filenames = swaws::file::GetFilesInDirectory(swaws::file::GetCurrentDirectory());
+    for (const auto& filename : filenames) {
+        std::cout << filename << "\n";
+    }
+    std::cout << "\n";
+
+    // Get filename (filename.extension) only
+    if (!filenames.empty()) {
+        std::cout << "Path Analysis:\n";
+        std::string filename = swaws::file::GetFilename(filenames[0]);
+        std::cout << "Filename only: " << filename << "\n";
+
+        // Get extension only
+        std::string ext = swaws::file::GetExtension(filenames[0]);
+        std::cout << "Extension: " << ext << "\n\n";
+    }
+
+    // Read and display text file
+    std::cout << "Text File Reading:\n";
+    std::string str;
+    bool success = swaws::file::ReadTextFile("test.txt", str);
+    if (success) {
+        std::cout << "Contents of test.txt:\n";
+        std::cout << str << "\n";
+    }
+    else {
+        std::cout << "Failed to read test.txt\n";
+    }
+
     // MAIN LOOP
     while (!quit) {
         while (SDL_PollEvent(&e)) {
