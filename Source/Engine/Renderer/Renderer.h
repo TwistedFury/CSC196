@@ -23,8 +23,8 @@ namespace swaws {
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(float x1, float y1);
 
-		const int GetWindowWidth() { return windowWidth; }
-		const int GetWindowHeight() { return windowHeight; }
+		int GetWindowWidth() const { return windowWidth; }
+		int GetWindowHeight() const { return windowHeight; }
 	private:
 		friend class Text; // Allows Text class to access private data
 		SDL_Window* m_window = nullptr;

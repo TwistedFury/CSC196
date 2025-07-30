@@ -30,46 +30,38 @@ int main(int argc, char* argv[]) {
 
     std::vector<swaws::vec2> points; // These are used for drawing rn
 
-    // Get current directory path
-    std::cout << "Directory Operations:\n";
-    std::cout << "Current directory: " << swaws::file::GetCurrentDirectory() << "\n";
+    // Test getInt() variants
+    std::cout << "Integer Functions:\n";
+    std::cout << "getInt(): " << swaws::random::getInt() << "\n";
+    std::cout << "getInt(): " << swaws::random::getInt() << "\n";
+    std::cout << "getInt(10): " << swaws::random::getInt(10) << "\n";
+    std::cout << "getInt(10): " << swaws::random::getInt(10) << "\n";
+    std::cout << "getInt(5, 15): " << swaws::random::getInt(5, 15) << "\n";
+    std::cout << "getInt(5, 15): " << swaws::random::getInt(5, 15) << "\n";
+    std::cout << "getInt(-10, 10): " << swaws::random::getInt(-10, 10) << "\n\n";
 
-    // Set current directory path (current path + "Assets")
-    std::cout << "Setting directory to 'Assets'...\n";
-    swaws::file::SetCurrentDirectory("Assets");
-    std::cout << "New directory: " << swaws::file::GetCurrentDirectory() << "\n\n";
+    // Test getReal() variants with float
+    std::cout << "Float Functions:\n";
+    std::cout << std::fixed << std::setprecision(6);
+    std::cout << "getReal<float>(): " << swaws::random::getReal<float>() << "\n";
+    std::cout << "getReal<float>(): " << swaws::random::getReal<float>() << "\n";
+    std::cout << "getReal<float>(5.0f): " << swaws::random::getReal<float>(5.0f) << "\n";
+    std::cout << "getReal<float>(2.5f, 7.5f): " << swaws::random::getReal<float>(2.5f, 7.5f) << "\n";
+    std::cout << "getReal<float>(-1.0f, 1.0f): " << swaws::random::getReal<float>(-1.0f, 1.0f) << "\n\n";
 
-    // Get filenames in the current directory
-    std::cout << "Files in Directory:\n";
-    auto filenames = swaws::file::GetFilesInDirectory(swaws::file::GetCurrentDirectory());
-    for (const auto& filename : filenames) {
-        std::cout << filename << "\n";
+    // Test getReal() variants with double
+    std::cout << "Double Functions:\n";
+    std::cout << std::setprecision(10);
+    std::cout << "getReal<double>(): " << swaws::random::getReal<double>() << "\n";
+    std::cout << "getReal<double>(100.0): " << swaws::random::getReal<double>(100.0) << "\n";
+    std::cout << "getReal<double>(0.0, 2.0): " << swaws::random::getReal<double>(0.0, 2.0) << "\n\n";
+
+    // Test getBool()
+    std::cout << "Boolean Functions:\n";
+    for (int i = 0; i < 10; ++i) {
+        std::cout << "getBool(): " << std::boolalpha << swaws::random::getBool() << "\n";
     }
     std::cout << "\n";
-
-    // Get filename (filename.extension) only
-    if (!filenames.empty()) {
-        std::cout << "Path Analysis:\n";
-        std::string filename = swaws::file::GetFilename(filenames[0]);
-        std::cout << "Filename only: " << filename << "\n";
-
-        // Get extension only
-        std::string ext = swaws::file::GetExtension(filenames[0]);
-        std::cout << "Extension: " << ext << "\n\n";
-    }
-
-    // Read and display text file
-    std::cout << "Text File Reading:\n";
-    std::string str;
-    bool success = swaws::file::ReadTextFile("test.txt", str);
-    if (success) {
-        std::cout << "Contents of test.txt:\n";
-        std::cout << str << "\n";
-    }
-    else {
-        std::cout << "Failed to read test.txt\n";
-    }
-
     // MAIN LOOP
     while (!quit) {
         while (SDL_PollEvent(&e)) {
@@ -124,7 +116,7 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < (int)points.size() - 1; i++) {
             // set color or random color
             // I choose random
-            swaws::GetEngine().GetRenderer().SetColor((uint8_t)swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256), swaws::random::GetRandom(256)); // Set render draw color to random color
+            swaws::GetEngine().GetRenderer().SetColor((uint8_t)swaws::random::getInt(256), swaws::random::getInt(256), swaws::random::getInt(256), swaws::random::getInt(256)); // Set render draw color to random color
             swaws::GetEngine().GetRenderer().DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
 

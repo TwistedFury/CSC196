@@ -62,7 +62,7 @@ void SpaceGame::Update(float dt)
         {
             m_enemySpawnTimer = 4;
             std::shared_ptr<swaws::Model> enemyModel = std::make_shared <swaws::Model>(GameData::enemyPoints, swaws::vec3{ 1.0f, 1.0f, 0.0f });
-            swaws::Transform transform{ swaws::vec2{ swaws::random::GetRandomFloat() * swaws::GetEngine().GetRenderer().GetWindowWidth(), swaws::random::GetRandomFloat() * swaws::GetEngine().GetRenderer().GetWindowHeight()}, 0, 5 };
+            swaws::Transform transform{ swaws::vec2{ swaws::random::getReal<float>() * swaws::GetEngine().GetRenderer().GetWindowWidth(), swaws::random::getReal<float>() * swaws::GetEngine().GetRenderer().GetWindowHeight()}, 0, 5 };
             std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
             enemy->damping = 0.2f;
             enemy->speed = 0;//(swaws::random::GetRandomFloat() * 10000) + 700;
