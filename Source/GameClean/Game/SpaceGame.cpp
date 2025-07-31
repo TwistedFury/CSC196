@@ -89,8 +89,7 @@ void SpaceGame::Shutdown()
 
 void SpaceGame::Draw()
 {
-    for (auto& act : scene->GetActors())
-    {
-        act->Draw(swaws::GetEngine().GetRenderer());
-    }
+    swaws::GetEngine().GetRenderer().Clear();
+    scene->Draw(swaws::GetEngine().GetRenderer());
+    swaws::GetEngine().GetRenderer().Present();
 }

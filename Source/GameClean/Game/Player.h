@@ -9,6 +9,12 @@ public:
 
 	float fireTime = 0.2f;
 	float fireTimer = 0;
+
+	enum class Weapon
+	{
+		Rocket,
+		Laser
+	};
 public:
 	Player() = default;
 	
@@ -18,4 +24,7 @@ public:
 	void Update(float dt) override;
 
 	void OnCollision(Actor* other) override;
+
+private:
+	Weapon weapon{ Weapon::Rocket };
 };

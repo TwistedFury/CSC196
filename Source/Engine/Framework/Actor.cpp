@@ -18,8 +18,9 @@ namespace swaws
 			destroyed = lifespan <= 0;
 		}
 
+		// Larger effect on damping speed with std::exp
 		m_transform.position += velocity * dt;
-		velocity *= (1.0f / (1.0f + damping * dt));
+		velocity *= std::exp(-damping * dt);
 	}
 
 	/// <summary>

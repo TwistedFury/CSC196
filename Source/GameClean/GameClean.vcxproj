@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="Game\Enemy.cpp" />
     <ClCompile Include="Game\GameData.cpp" />
+    <ClCompile Include="Game\Laser.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Game\Rocket.cpp" />
     <ClCompile Include="Game\SpaceGame.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="Game\Enemy.h" />
     <ClInclude Include="Game\GameData.h" />
+    <ClInclude Include="Game\Laser.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Rocket.h" />
     <ClInclude Include="Game\SpaceGame.h" />
