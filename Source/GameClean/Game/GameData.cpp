@@ -1,5 +1,7 @@
 #pragma once
 #include "GameData.h"
+#include "Engine.h"
+#include "Renderer/Renderer.h"
 
 namespace GameData
 {
@@ -31,4 +33,9 @@ namespace GameData
     { 1, 1 },
     { 4, 0 },
     };
+
+    std::vector<swaws::vec2> laserPoints{
+        { 0, 0 }
+    };
+
 }

@@ -7,6 +7,7 @@ namespace swaws
 	class AudioSystem;
 	class InputSystem;
 	class Time;
+	class ParticleSystem;
 
 	class Engine
 	{
@@ -20,8 +21,10 @@ namespace swaws
 		void Draw();
 
 		Renderer& GetRenderer() { return *renderer; }
-		AudioSystem& GetAudioSystem() { return *audio; }
-		InputSystem& GetInputSystem() { return *input; }
+		ParticleSystem& GetPS() { return *particle; }
+		AudioSystem& GetAudio() { return *audio; }
+		InputSystem& GetInput() { return *input; }
+
 		Time& GetTime() { return *time; }
 
 	private:
@@ -29,6 +32,7 @@ namespace swaws
 		std::unique_ptr<Renderer> renderer;
 		std::unique_ptr<AudioSystem> audio;
 		std::unique_ptr<InputSystem> input;
+		std::unique_ptr<ParticleSystem> particle;
 	};
 
 	Engine& GetEngine();

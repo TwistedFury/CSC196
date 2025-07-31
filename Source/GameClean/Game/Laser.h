@@ -17,7 +17,5 @@ public:
 
 	void OnCollision(Actor* other) override;
 
-	void Draw(swaws::Renderer& renderer) override;
-
 private:
 };

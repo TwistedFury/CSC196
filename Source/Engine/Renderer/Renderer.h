@@ -30,7 +30,7 @@ namespace swaws {
 		SDL_Window* m_window = nullptr;
 		SDL_Renderer* m_renderer = nullptr;
 
-		int windowWidth = 0;
-		int windowHeight = 0;
+		int windowWidth = 1280;
+		int windowHeight = 1024;
 	};
 }

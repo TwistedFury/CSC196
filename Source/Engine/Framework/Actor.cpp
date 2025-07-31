@@ -19,7 +19,7 @@ namespace swaws
 		}
 
 		// Larger effect on damping speed with std::exp
-		m_transform.position += velocity * dt;
+		transform.position += velocity * dt;
 		velocity *= std::exp(-damping * dt);
 	}
 
@@ -30,10 +30,15 @@ namespace swaws
 	void Actor::Draw(Renderer& renderer)
 	{
 		if (destroyed) return;
-		m_model->Draw(renderer, m_transform);
+		m_model->Draw(renderer, transform);
 	}
+
+	/// <summary>
+	/// Returns the effective radius of the actor, based on its model and scale.
+	/// </summary>
+	/// <returns>The actor's radius as a float. Returns 0 if the model is not set.</returns>
 	float Actor::GetRadius()
 	{
-		return (m_model) ? m_model->GetRadius() * m_transform.scale : 0;
+		return (m_model) ? m_model->GetRadius() * transform.scale * 0.9f : 0;
 	}
 }

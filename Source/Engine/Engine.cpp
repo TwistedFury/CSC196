@@ -5,6 +5,7 @@
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
+#include "Renderer/ParticleSystem.h"
 
 namespace swaws
 {
@@ -27,6 +28,9 @@ namespace swaws
 
 		time = std::make_unique<Time>();
 
+		particle = std::make_unique<ParticleSystem>();
+		particle->Initialize();
+
 		return true;
 	}
 
@@ -38,6 +42,7 @@ namespace swaws
 		time->Tick();
 		audio->Update();
 		input->Update();
+		particle->Update(time->GetDeltaTime());
 	}
 
 	/// <summary>
@@ -46,6 +51,7 @@ namespace swaws
 	void Engine::Shutdown()
 	{
 		// Typically reverse order of Initialize
+		particle->Shutdown();
 		input->Shutdown();
 		audio->Shutdown();
 		renderer->ShutDown();

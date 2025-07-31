@@ -26,5 +26,5 @@ public:
 	void OnCollision(Actor* other) override;
 
 private:
-	Weapon weapon{ Weapon::Rocket };
+	Weapon weapon{ Weapon::Laser };
 };

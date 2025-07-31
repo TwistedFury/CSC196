@@ -32,7 +32,7 @@ namespace swaws
 			{
 				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
 				
-				float distance = (actorA->m_transform.position - actorB->m_transform.position).Length();
+				float distance = (actorA->transform.position - actorB->transform.position).Length();
 				if (distance <= (actorA->GetRadius() + actorB->GetRadius()))
 				{
 					actorA->OnCollision(actorB.get());

@@ -13,6 +13,7 @@ namespace swaws
 		std::string tag;
 
 		float speed = 200;
+		float maxSpeed = 200;
 
 		vec2 velocity{ 0, 0 };
 		float damping{ 0.3f };
@@ -20,19 +21,22 @@ namespace swaws
 		bool destroyed{ false };
 		float lifespan{ 0 };
 
-		Transform m_transform;
+		Transform transform;
 		class Scene* scene{ nullptr };
 	public:
 		Actor() = default;
 		Actor(const Transform& transform, std::shared_ptr<class Model> model) :
-		m_transform{ transform }, m_model{ model } 
+		transform{ transform }, m_model{ model } 
 		{ }
 
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
-		// GetTransform has depracated
-		Transform& GetTransform() { return m_transform; }
+		/// <summary>
+		/// Returns a reference to the transform object. This method has deprecated.
+		/// </summary>
+		/// <returns>A reference to the internal Transform object.</returns>
+		Transform& GetTransform() { return transform; }
 		float GetRadius();
 
 		virtual void OnCollision(Actor* other) = 0;

@@ -11,6 +11,7 @@
 #include <memory>
 
 int main(int argc, char* argv[]) {
+    swaws::file::SetCurrentDirectory("Assets");
 
     // Initialize Engine Systems
     swaws::GetEngine().Initialize();
@@ -30,38 +31,6 @@ int main(int argc, char* argv[]) {
 
     std::vector<swaws::vec2> points; // These are used for drawing rn
 
-    // Test getInt() variants
-    std::cout << "Integer Functions:\n";
-    std::cout << "getInt(): " << swaws::random::getInt() << "\n";
-    std::cout << "getInt(): " << swaws::random::getInt() << "\n";
-    std::cout << "getInt(10): " << swaws::random::getInt(10) << "\n";
-    std::cout << "getInt(10): " << swaws::random::getInt(10) << "\n";
-    std::cout << "getInt(5, 15): " << swaws::random::getInt(5, 15) << "\n";
-    std::cout << "getInt(5, 15): " << swaws::random::getInt(5, 15) << "\n";
-    std::cout << "getInt(-10, 10): " << swaws::random::getInt(-10, 10) << "\n\n";
-
-    // Test getReal() variants with float
-    std::cout << "Float Functions:\n";
-    std::cout << std::fixed << std::setprecision(6);
-    std::cout << "getReal<float>(): " << swaws::random::getReal<float>() << "\n";
-    std::cout << "getReal<float>(): " << swaws::random::getReal<float>() << "\n";
-    std::cout << "getReal<float>(5.0f): " << swaws::random::getReal<float>(5.0f) << "\n";
-    std::cout << "getReal<float>(2.5f, 7.5f): " << swaws::random::getReal<float>(2.5f, 7.5f) << "\n";
-    std::cout << "getReal<float>(-1.0f, 1.0f): " << swaws::random::getReal<float>(-1.0f, 1.0f) << "\n\n";
-
-    // Test getReal() variants with double
-    std::cout << "Double Functions:\n";
-    std::cout << std::setprecision(10);
-    std::cout << "getReal<double>(): " << swaws::random::getReal<double>() << "\n";
-    std::cout << "getReal<double>(100.0): " << swaws::random::getReal<double>(100.0) << "\n";
-    std::cout << "getReal<double>(0.0, 2.0): " << swaws::random::getReal<double>(0.0, 2.0) << "\n\n";
-
-    // Test getBool()
-    std::cout << "Boolean Functions:\n";
-    for (int i = 0; i < 10; ++i) {
-        std::cout << "getBool(): " << std::boolalpha << swaws::random::getBool() << "\n";
-    }
-    std::cout << "\n";
     // MAIN LOOP
     while (!quit) {
         while (SDL_PollEvent(&e)) {
@@ -74,21 +43,21 @@ int main(int argc, char* argv[]) {
         game->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 
         // STEP ONE (CLICK)
-        if (swaws::GetEngine().GetInputSystem().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&
-            !swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
-            points.push_back(swaws::GetEngine().GetInputSystem().GetMousePosition());
+        if (swaws::GetEngine().GetInput().GetMouseButtonPressed(swaws::InputSystem::MouseButton::Left) &&
+            !swaws::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            points.push_back(swaws::GetEngine().GetInput().GetMousePosition());
         }
 
         // STEP TWO (&DRAG)
-        if (swaws::GetEngine().GetInputSystem().GetMouseButtonDown(swaws::InputSystem::MouseButton::Left) &&
-            swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
-            swaws::vec2 position = swaws::GetEngine().GetInputSystem().GetMousePosition();
+        if (swaws::GetEngine().GetInput().GetMouseButtonDown(swaws::InputSystem::MouseButton::Left) &&
+            swaws::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LSHIFT)) {
+            swaws::vec2 position = swaws::GetEngine().GetInput().GetMousePosition();
             if (points.empty()) points.push_back(position);
             else if ((position.Length() - points.back().Length()) > 10) points.push_back(position);
         }
 
         // UNDO
-        if (swaws::GetEngine().GetInputSystem().GetKeyPressed(SDL_SCANCODE_Z) && swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_LCTRL)) {
+        if (swaws::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_Z) && swaws::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_LCTRL)) {
             if (!points.empty()) {
                 points.pop_back();
             }
@@ -121,7 +90,7 @@ int main(int argc, char* argv[]) {
         }
 
         // Draw Actors
-        game->Draw();
+        game->Draw(swaws::GetEngine().GetRenderer());
 
 		// Reset color
         swaws::GetEngine().GetRenderer().SetColor((uint8_t)0, 0, 0);

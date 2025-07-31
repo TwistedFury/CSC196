@@ -5,8 +5,8 @@
 class Enemy : public swaws::Actor
 {
 public:
-	float fireTimer{ 0.5f };
-	float fireTime{ 0.5f };
+	float fireTime{ 0 };
+	float fireTimer{ fireTime };
 
 public:
 	Enemy() = default;
@@ -17,5 +17,8 @@ public:
 	void Update(float dt) override;
 
 	void OnCollision(Actor* other) override;
+
+private:
+	
 
 };
