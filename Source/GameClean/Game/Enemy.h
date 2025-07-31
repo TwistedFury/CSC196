@@ -5,6 +5,10 @@
 class Enemy : public swaws::Actor
 {
 public:
+	float fireTimer{ 0.5f };
+	float fireTime{ 0.5f };
+
+public:
 	Enemy() = default;
 
 	Enemy(const swaws::Transform& transform, std::shared_ptr<swaws::Model> model) :

@@ -127,5 +127,8 @@
     <ClInclude Include="Core\StringHelper.h">
       <Filter>Source\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\ParticleSystem.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

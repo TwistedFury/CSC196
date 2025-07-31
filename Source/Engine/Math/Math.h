@@ -53,15 +53,30 @@ namespace swaws {
 			return min + result;
 		}
 
+		/// <summary>
+		/// Determines the sign of a number.
+		/// </summary>
+		/// <typeparam name="T">The type of the number.</typeparam>
+		/// <param name="v">The number whose sign is to be determined.</param>
+		/// <returns>Returns -1 if the number is negative, 1 if positive, and 0 if zero.</returns>
+		template <typename T>
+		inline T sign(T v)
+		{
+			return (v < 0) ? -1 : (v > 0) ? 1 : 0;
+		}
+
 		using std::min;
 		using std::max;
 		using std::sqrt;
 		using std::sqrtf;
 		using std::sin;
 		using std::sinf;
+		using std::asinf;
 		using std::cos;
 		using std::cosf;
+		using std::acosf;
 		using std::atan;
 		using std::atanf;
+		using std::atan2f;
 	}
 }

@@ -17,4 +17,5 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
+#include "Renderer/ParticleSystem.h"
 #include "Engine.h"

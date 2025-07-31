@@ -126,7 +126,7 @@ namespace swaws {
 		/// Calculates the angle in radians from the origin to the point (x, y).
 		/// </summary>
 		/// <returns>The angle in radians, measured from the positive x-axis to the point (x, y).</returns>
-		float Angle() const { return atan2f(y, x); }
+		float Angle() const { return math::atan2f(y, x); }
 
 		/// <summary>
 		/// Returns a new Vector2 that is the result of rotating this vector by the specified angle in radians.
@@ -141,6 +141,53 @@ namespace swaws {
 			v.y = x * math::sinf(radians) + y * math::cosf(radians);
 
 			return v;
+		}
+
+		/// <summary>
+		/// Calculates the dot product of two 2D vectors.
+		/// </summary>
+		/// <param name="a">The first 2D vector.</param>
+		/// <param name="b">The second 2D vector.</param>
+		/// <returns>The dot product of the two vectors as a float.</returns>
+		static float Dot(const Vector2& a, const Vector2& b)
+		{
+			return a.x * b.x + a.y * b.y;
+		}
+
+		/// <summary>
+		/// Calculates the angle in radians between two 2D vectors.
+		/// </summary>
+		/// <param name="a">The first 2D vector.</param>
+		/// <param name="b">The second 2D vector.</param>
+		/// <returns>The angle in radians between the two vectors.</returns>
+		static float AngleBetween(const Vector2& a, const Vector2& b)
+		{
+			return math::acosf(Dot(a, b));
+		}
+
+		/// <summary>
+		/// Calculates the 2D cross product of two vectors.
+		/// </summary>
+		/// <param name="a">The first 2D vector.</param>
+		/// <param name="b">The second 2D vector.</param>
+		/// <returns>The scalar value of the cross product of the two vectors.</returns>
+		static float Cross(const Vector2& a, const Vector2& b)
+		{
+			return a.x * b.y - a.y * b.x;
+		}
+
+		/// <summary>
+		/// Calculates the signed angle in radians between two 2D vectors.
+		/// </summary>
+		/// <param name="a">The first 2D vector.</param>
+		/// <param name="b">The second 2D vector.</param>
+		/// <returns>The signed angle in radians between vector a and vector b. The sign indicates the direction from a to b.</returns>
+		static float SignedAngleBetween(const Vector2& a, const Vector2& b)
+		{
+			float x = Dot(a, b);
+			float y = Cross(a, b);
+
+			return math::atan2f(y, x);
 		}
 	};
 

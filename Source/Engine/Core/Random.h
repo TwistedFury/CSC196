@@ -1,5 +1,6 @@
 #pragma once
-
+#include "../Math/Vector2.h"
+#include "../Math/Math.h"
 #include <random>
 
 namespace swaws::random {
@@ -93,4 +94,19 @@ namespace swaws::random {
         static std::bernoulli_distribution dist(0.5);
         return dist(generator());
     }
+
+    /// <summary>
+    /// Generates a 2D vector located on the unit circle using a random angle in radians.
+    /// </summary>
+    /// <returns>A vec2 representing a point on the unit circle.</returns>
+    inline vec2 onUnitCircle() {
+        float radians = getReal(math::twoPi);
+        vec2 v;
+        v.x = math::cosf(radians);
+        v.y = math::sinf(radians);
+
+        return v;
+    }
+
+    // particle.position = swaws::random::onUnitCircle() * swaws::random::getRead(10.0f, 200.0f);
 }

@@ -61,14 +61,7 @@ void SpaceGame::Update(float dt)
         if (m_enemySpawnTimer <= 0)
         {
             m_enemySpawnTimer = 4;
-            std::shared_ptr<swaws::Model> enemyModel = std::make_shared <swaws::Model>(GameData::enemyPoints, swaws::vec3{ 1.0f, 1.0f, 0.0f });
-            swaws::Transform transform{ swaws::vec2{ swaws::random::getReal<float>() * swaws::GetEngine().GetRenderer().GetWindowWidth(), swaws::random::getReal<float>() * swaws::GetEngine().GetRenderer().GetWindowHeight()}, 0, 5 };
-            std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
-            enemy->damping = 0.2f;
-            enemy->speed = 0;//(swaws::random::GetRandomFloat() * 10000) + 700;
-            if (enemy->speed > 1500) enemy->speed = 1500;
-            enemy->tag = "enemy";
-            scene->AddActor(std::move(enemy));
+            SpawnEnemy();
         }
         break;
     case SpaceGame::GameState::PlayerDead:
@@ -79,6 +72,8 @@ void SpaceGame::Update(float dt)
         break;
     }
 
+    if (swaws::GetEngine().GetInputSystem().GetKeyDown(SDL_SCANCODE_Q)) swaws::GetEngine().GetTime().SetTimeScale(0.2f); // SUPER HOT SUPER HOT SUPER HOT
+    else swaws::GetEngine().GetTime().SetTimeScale(1.0f);
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 }
 
@@ -92,4 +87,24 @@ void SpaceGame::Draw()
     swaws::GetEngine().GetRenderer().Clear();
     scene->Draw(swaws::GetEngine().GetRenderer());
     swaws::GetEngine().GetRenderer().Present();
+}
+
+void SpaceGame::SpawnEnemy()
+{
+    std::shared_ptr<swaws::Model> enemyModel = std::make_shared <swaws::Model>(GameData::enemyPoints, swaws::vec3{ 1.0f, 1.0f, 0.0f });
+    
+    Player* player = scene->GetActorByName<Player>("player");
+    if (player)
+    {
+        // Spawn @ Random Position away from Player
+        swaws::vec2 position = player->m_transform.position + swaws::random::onUnitCircle() * swaws::random::getReal(200.0f, 500.0f);
+        swaws::Transform transform{ position, swaws::random::getReal(0.0f, 360.0f), 5};
+        std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
+
+        enemy->damping = 0.2f;
+        enemy->speed = 0;//(swaws::random::GetRandomFloat() * 10000) + 700;
+        if (enemy->speed > 1500) enemy->speed = 1500;
+        enemy->tag = "enemy";
+        scene->AddActor(std::move(enemy));
+    }
 }
