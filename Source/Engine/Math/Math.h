@@ -62,7 +62,7 @@ namespace swaws {
 		template <typename T>
 		inline T sign(T v)
 		{
-			return (v < 0) ? -1 : (v > 0) ? 1 : 0;
+			return (v < 0) ? (T)-1 : (v > 0) ? (T)1 : (T)0;
 		}
 
 		using std::min;

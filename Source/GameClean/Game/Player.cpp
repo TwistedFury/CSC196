@@ -8,12 +8,24 @@
 
 void Player::Update(float dt)
 {
-    swaws::Particle particle;
-    particle.position = transform.position;
-    particle.velocity = swaws::vec2{ swaws::random::getReal(-200.0f, 200.0f), swaws::random::getReal(-200.0f, 200.0f) };
-    particle.color = { 1, 1, 1 };
-    particle.lifespan = 2;
-    swaws::GetEngine().GetPS().AddParticle(particle);
+    float angle = transform.rotation + swaws::random::getReal(-60.0f, 60.0f);
+    swaws::vec2 pv = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(angle));
+    pv *= swaws::random::getReal(80.0f, 150.0f);
+
+    if (velocity.Normalized().x != 0)
+    {
+        float offsetDistance = -GetRadius() + 10;
+        swaws::vec2 offset = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(transform.rotation)) * offsetDistance;
+
+        swaws::Particle particle;
+        particle.position = transform.position + offset;
+        particle.velocity = pv * swaws::vec2{ swaws::random::getReal(-50.0f, 50.0f), swaws::random::getReal(-50.0f, 50.0f) };
+        particle.color = swaws::vec3{ 1, 1, 1 };
+        particle.lifespan = 0.5f;
+
+
+        swaws::GetEngine().GetPS().AddParticle(particle);
+    }
 
     // rotation
     float rotate = 0;
@@ -50,7 +62,7 @@ void Player::Update(float dt)
             model = std::make_shared <swaws::Model>(GameData::rocketPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
             rocket = std::make_unique<Rocket>(transform, model);
             rocket->speed = 750; // Set Speed
-            rocket->lifespan = 0.25f;
+            rocket->lifespan = 1.5f;
             rocket->tag = "player"; // Set Tag
             rocket->name = "rocket";
 

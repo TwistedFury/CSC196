@@ -29,7 +29,7 @@ namespace swaws
 		time = std::make_unique<Time>();
 
 		particle = std::make_unique<ParticleSystem>();
-		particle->Initialize();
+		particle->Initialize(5000);
 
 		return true;
 	}

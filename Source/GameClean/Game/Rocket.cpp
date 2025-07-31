@@ -12,15 +12,28 @@ void Rocket::Update(float dt)
     transform.position.x = swaws::math::wrap((float)transform.position.x, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowWidth());
     transform.position.y = swaws::math::wrap((float)transform.position.y, (float)0, (float)swaws::GetEngine().GetRenderer().GetWindowHeight());
 
-    float angle = transform.rotation + swaws::random::getReal(-60.0f, 60.0f);
-    swaws::vec2 velocity = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(angle));
-    velocity *= swaws::random::getReal(80.0f, 150.0f);
+    //// Emit multiple particles for visible spread
+    //const int numParticles = 8; // Adjust for more/less particles
+    //for (int i = 0; i < numParticles; ++i)
+    //{
+    //    float angle = transform.rotation + swaws::random::getReal(-90.0f, 90.0f);
+    //    swaws::vec2 velocity = swaws::vec2{ 1, 0 }.Rotate(swaws::math::DegToRad(angle));
+    //    velocity *= swaws::random::getReal(-180.0f, 180.0f);
+
+    //    swaws::Particle particle;
+    //    particle.position = transform.position;
+    //    particle.velocity = velocity;
+    //    particle.color = (tag == "enemy") ? swaws::vec3{ 0, 1, 1 } : swaws::vec3{ 1, 1, 1 };
+    //    particle.lifespan = swaws::random::getReal(0.15f, 0.3f);
+
+    //    swaws::GetEngine().GetPS().AddParticle(particle);
+    //}
 
     swaws::Particle particle;
     particle.position = transform.position;
-    particle.velocity = velocity;
-    particle.color = (tag == "enemy") ? swaws::vec3{ 0, 1, 1 } : swaws::vec3{ 1, 1, 1 };
-    particle.lifespan = swaws::random::getReal(50.f, 120.0f);
+    particle.velocity = swaws::vec2{ swaws::random::getReal(-50.0f, 50.0f), swaws::random::getReal(-50.0f, 50.0f) };
+    particle.color = swaws::vec3{ 1, 1, 1 };
+    particle.lifespan = 0.25f;
 
     swaws::GetEngine().GetPS().AddParticle(particle);
 

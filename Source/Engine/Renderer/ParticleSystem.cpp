@@ -4,7 +4,7 @@
 
 namespace swaws
 {
-	bool ParticleSystem::Initialize()
+	bool ParticleSystem::Initialize(int poolSize)
 	{
 		// Reserve Particle Space
 		m_particles.resize(poolSize);

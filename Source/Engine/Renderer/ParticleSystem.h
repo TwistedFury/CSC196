@@ -20,9 +20,7 @@ namespace swaws
 	public:
 		ParticleSystem() = default;
 
-		ParticleSystem(int poolSize) : poolSize{ poolSize } {}
-
-		bool Initialize();
+		bool Initialize(int poolSize = 1000);
 		void Shutdown();
 
 		void Update(float dt);
