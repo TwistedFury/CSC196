@@ -38,6 +38,7 @@ private:
 	std::unique_ptr<swaws::Text> m_titleText;
 	std::unique_ptr<swaws::Text> m_scoreText;
 	std::unique_ptr<swaws::Text> m_livesText;
+	std::unique_ptr<swaws::Text> m_pressSpace;
 
 	void SpawnEnemy();
 };

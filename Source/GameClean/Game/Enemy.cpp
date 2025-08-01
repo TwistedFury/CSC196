@@ -53,6 +53,7 @@ void Enemy::Update(float dt)
         rocket->tag = "enemy";
 
         scene->AddActor(std::move(rocket));
+        swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
     }
 
     Actor::Update(dt);
@@ -76,5 +77,6 @@ void Enemy::OnCollision(Actor* other)
 
             swaws::GetEngine().GetPS().AddParticle(particle);
         }
+        swaws::GetEngine().GetAudio().playSound("explosion", 0, false, 0);
     }
 }

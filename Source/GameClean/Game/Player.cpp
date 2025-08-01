@@ -67,6 +67,7 @@ void Player::Update(float dt)
             rocket->name = "rocket";
 
             scene->AddActor(std::move(rocket));
+            swaws::GetEngine().GetAudio().playSound("blaster", 0, false, 0);
             break;
         case Player::Weapon::Laser:
             // Laser time BAYBEE
@@ -77,6 +78,7 @@ void Player::Update(float dt)
             laser->name = "laser";
 
             scene->AddActor(std::move(laser));
+            swaws::GetEngine().GetAudio().playSound("laser", 0, false, 0);
             break;
         default:
             break;
@@ -92,6 +94,7 @@ void Player::OnCollision(Actor* other)
     {
         destroyed = true;
         dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
+        swaws::GetEngine().GetAudio().playSound("explosion", 0, false, 0);
     }
 }
 

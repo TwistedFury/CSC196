@@ -11,18 +11,24 @@ namespace swaws
         void* extradriverdata = nullptr;
         audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
-        AddSound("bass.wav", "bass");
-        AddSound("snare.wav", "snare");
-        AddSound("open-hat.wav", "open-hat");
-        AddSound("close-hat.wav", "close-hat");
-        AddSound("clap.wav", "clap");
-        AddSound("cowbell.wav", "cowbell");
+        AddSound("blaster.wav", "blaster");
+        AddSound("laser.mp3", "laser");
+        AddSound("gameOver_pacman.wav", "gameOver");
+        AddSound("explosion.wav", "explosion");
+        /*
+        * 80s Space Mission Music by Tomentum+ -- https://freesound.org/s/723496/ -- License: Attribution 4.0
+
+        greetings.wav by oae888 -- https://freesound.org/s/541590/ -- License: Creative Commons 0
+
+        ISS2.mp3 by oae888 -- https://freesound.org/s/541584/ -- License: Creative Commons 0
+        */
+        AddSound("sndtrack.wav", "soundtrack", FMOD_LOOP_NORMAL);
     }
 
-    void AudioSystem::AddSound(const char* name_or_data, std::string refName)
+    void AudioSystem::AddSound(const char* name_or_data, std::string refName, FMOD_MODE mode)
     {
         FMOD::Sound* sound = nullptr;
-        audio->createSound(name_or_data, FMOD_DEFAULT, 0, &sound);
+        audio->createSound(name_or_data, mode, 0, &sound);
         sounds[refName] = sound;
     }
 

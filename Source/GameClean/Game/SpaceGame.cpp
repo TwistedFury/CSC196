@@ -22,12 +22,15 @@ bool SpaceGame::Initialize()
     m_titleText = std::make_unique<swaws::Text>(m_titleFont);
     m_scoreText = std::make_unique<swaws::Text>(m_uiFont);
     m_livesText = std::make_unique<swaws::Text>(m_uiFont);
+    m_pressSpace = std::make_unique<swaws::Text>(m_titleFont);
 
     // Initialize Laser Points
     GameData::laserPoints = std::vector<swaws::vec2>{
     { 0, 0 },
     { (float)swaws::GetEngine().GetRenderer().GetWindowWidth(), 0}
     };
+
+    swaws::GetEngine().GetAudio().playSound("soundtrack", 0, false, 0);
 
     return true;
 }
@@ -102,6 +105,7 @@ void SpaceGame::Update(float dt)
             if (m_lives == 0)
             {
                 m_stateTimer = 3;
+                swaws::GetEngine().GetAudio().playSound("gameOver", 0, false, 0);
                 m_gameState = GameState::GameOver;
             }
             else m_gameState = GameState::StartRound;
@@ -158,11 +162,13 @@ void SpaceGame::Shutdown()
 
 void SpaceGame::Draw(swaws::Renderer& renderer)
 {
-    //swaws::GetEngine().GetRenderer().Clear();
     if (m_gameState == GameState::Title)
     {
         m_titleText->Create(renderer, "OUI WUZ SPACE", swaws::vec3{ 1, 0, 0 });
         m_titleText->Draw(renderer, 400, 400);
+
+        m_pressSpace->Create(renderer, "PRESS SPACE TO PLAY", { 1, 0, 0 });
+        m_pressSpace->Draw(renderer, 300, 600);
     }
     if (m_gameState == GameState::GameOver)
     {
@@ -178,7 +184,6 @@ void SpaceGame::Draw(swaws::Renderer& renderer)
     m_livesText->Draw(renderer, (float)renderer.GetWindowWidth() - 300.0f, 20);
 
     scene->Draw(renderer);
-    //swaws::GetEngine().GetRenderer().Present();
     swaws::GetEngine().GetPS().Draw(renderer);
 }
 
