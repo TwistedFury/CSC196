@@ -18,6 +18,8 @@ namespace swaws
 		vec2 velocity{ 0, 0 };
 		float damping{ 0.3f };
 
+		float length{ 0 }; // USED FOR STRAIGHT OBJECTS LIKE LASERS
+
 		bool destroyed{ false };
 		float lifespan{ 0 };
 
@@ -37,7 +39,7 @@ namespace swaws
 		/// </summary>
 		/// <returns>A reference to the internal Transform object.</returns>
 		Transform& GetTransform() { return transform; }
-		float GetRadius();
+		virtual float GetRadius();
 
 		virtual void OnCollision(Actor* other) = 0;
 

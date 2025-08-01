@@ -3,6 +3,7 @@
 #include "SpaceGame.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "UIModel.h"
 #include "GameData.h"
 #include "EngineInc.h"
 
@@ -48,6 +49,26 @@ void SpaceGame::Update(float dt)
         break;
     case SpaceGame::GameState::StartRound:
     {
+        {
+            // Set up UI Icons
+            float scale = 5;
+            std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 1.0f, 1.0f, 1.0f });
+            std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 1.0f, 1.0f });
+
+            swaws::Transform rITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (40 * scale), (20 * scale) }, 0, scale);
+            swaws::Transform lITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (40 * scale), (40 * scale) }, 0, scale);
+            std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
+            std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
+
+            rocketIconModel->speed = 0;
+            laserIconModel->speed = 0;
+
+            rocketIconModel->tag = "ui";
+            laserIconModel->tag = "ui";
+
+            scene->AddActor(std::move(rocketIconModel));
+            scene->AddActor(std::move(laserIconModel));
+        }
         scene->RemoveAllActors();
         std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 5);
