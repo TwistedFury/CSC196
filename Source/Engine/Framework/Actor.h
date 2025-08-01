@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Math/Transform.h"
+#include "../Math/Vector3.h"
+#include "../Renderer/Model.h"
 #include <memory>
 #include <string>
 
@@ -43,7 +45,11 @@ namespace swaws
 
 		virtual void OnCollision(Actor* other) = 0;
 
+		// colors
+		void SetColor(vec3 color) { m_model->SetColor(color); }
+		vec3 GetColor() const { return m_model->GetColor(); }
+
 	protected:
-		std::shared_ptr<class Model> m_model;
+		std::shared_ptr<Model> m_model;
 	};
 }

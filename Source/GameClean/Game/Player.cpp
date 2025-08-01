@@ -94,3 +94,15 @@ void Player::OnCollision(Actor* other)
         dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
     }
 }
+
+/// <summary>
+/// Sets the player's current weapon to the specified weapon if it is different from the current one.
+/// </summary>
+/// <param name="weapon">The weapon to select for the player.</param>
+void Player::SelectWeapon(Weapon weapon)
+{
+    if (weapon != this->weapon)
+    {
+        this->weapon = weapon;
+    }
+}

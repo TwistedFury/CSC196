@@ -13,7 +13,8 @@ public:
 	enum class Weapon
 	{
 		Rocket,
-		Laser
+		Laser,
+		Count // Always at end so we know how many exist
 	};
 public:
 	Player() = default;
@@ -25,6 +26,9 @@ public:
 
 	void OnCollision(Actor* other) override;
 
+	void SelectWeapon(Weapon weapon);
+
+	Weapon CurWeapon() const { return weapon; }
 private:
-	Weapon weapon{ Weapon::Laser };
+	Weapon weapon{ Weapon::Rocket };
 };

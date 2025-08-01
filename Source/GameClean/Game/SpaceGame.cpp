@@ -49,26 +49,6 @@ void SpaceGame::Update(float dt)
         break;
     case SpaceGame::GameState::StartRound:
     {
-        {
-            // Set up UI Icons
-            float scale = 5;
-            std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 1.0f, 1.0f, 1.0f });
-            std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 1.0f, 1.0f });
-
-            swaws::Transform rITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (40 * scale), (20 * scale) }, 0, scale);
-            swaws::Transform lITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (40 * scale), (40 * scale) }, 0, scale);
-            std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
-            std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
-
-            rocketIconModel->speed = 0;
-            laserIconModel->speed = 0;
-
-            rocketIconModel->tag = "ui";
-            laserIconModel->tag = "ui";
-
-            scene->AddActor(std::move(rocketIconModel));
-            scene->AddActor(std::move(laserIconModel));
-        }
         scene->RemoveAllActors();
         std::shared_ptr<swaws::Model> model = std::make_shared <swaws::Model>(GameData::playerPoints, swaws::vec3{ 0.0f, 1.0f, 0.8f });
         swaws::Transform transform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() * 0.5f, swaws::GetEngine().GetRenderer().GetWindowHeight() * 0.5f }, 0, 5);
@@ -82,6 +62,28 @@ void SpaceGame::Update(float dt)
         player->name = "player";
         scene->AddActor(std::move(player));
         m_gameState = GameState::Game;
+
+        // Set up UI Icons
+        float scale = 5;
+        std::shared_ptr<swaws::Model> rocketIcon = std::make_shared<swaws::Model>(GameData::rocketIconPoints, swaws::vec3{ 0.0f, 1.0f, 0.0f });
+        std::shared_ptr<swaws::Model> laserIcon = std::make_shared<swaws::Model>(GameData::laserIconPoints, swaws::vec3{ 1.0f, 0.0f, 0.0f });
+
+        swaws::Transform rITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (20 * scale) }, 0, scale);
+        swaws::Transform lITransform(swaws::vec2{ swaws::GetEngine().GetRenderer().GetWindowWidth() - (10 * scale), (40 * scale) }, 0, scale);
+        std::unique_ptr<UIModel> rocketIconModel = std::make_unique<UIModel>(rITransform, rocketIcon);
+        std::unique_ptr<UIModel> laserIconModel = std::make_unique<UIModel>(lITransform, laserIcon);
+
+        rocketIconModel->speed = 0;
+        laserIconModel->speed = 0;
+
+        rocketIconModel->tag = "ui";
+        laserIconModel->tag = "ui";
+
+        rocketIconModel->name = "rocketIc";
+        laserIconModel->name = "laserIc";
+
+        scene->AddActor(std::move(rocketIconModel));
+        scene->AddActor(std::move(laserIconModel));
     }
         break;
     case SpaceGame::GameState::Game:
@@ -113,8 +115,39 @@ void SpaceGame::Update(float dt)
         break;
     }
 
+    // WE CHECK KEYS HERE
+    // Q = SUPER HOT
     if (swaws::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_Q)) swaws::GetEngine().GetTime().SetTimeScale(0.2f); // SUPER HOT SUPER HOT SUPER HOT
     else swaws::GetEngine().GetTime().SetTimeScale(1.0f);
+
+    // F = CHANGE WEAPON, IMPLEMENT AS MOVE TO NEXT
+    if (swaws::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_F))
+    {
+        Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
+        if (player)
+        {
+            int weaponAmount = static_cast<int>(Player::Weapon::Count);
+            int curWeapon = static_cast<int>(player->CurWeapon());
+            player->SelectWeapon(static_cast<Player::Weapon>((curWeapon + 1) % weaponAmount));
+
+            // With more weapons, this'll be longer
+            switch (curWeapon)
+            {
+            case 0: // ROCKET -> LASER
+                scene->GetActorByName("rocketIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+                scene->GetActorByName("laserIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+                player->fireTime = 5;
+                break;
+            case 1: // LASER -> ROCKET
+                scene->GetActorByName("laserIc")->SetColor({ 1.0f, 0.0f, 0.0f });
+                scene->GetActorByName("rocketIc")->SetColor({ 0.0f, 1.0f, 0.0f });
+                player->fireTime = 0.2f;
+                break;
+            default:
+                break;
+            }
+        }
+    }
     scene->Update(swaws::GetEngine().GetTime().GetDeltaTime());
 }
 

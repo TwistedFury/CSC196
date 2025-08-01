@@ -21,6 +21,9 @@ namespace swaws
 
 		float GetRadius() const { return m_radius; }
 
+		vec3 GetColor() const { return color; }
+		void SetColor(vec3 color) { this->color = color; }
+
 	private:
 		void CalculateRadius();
 
