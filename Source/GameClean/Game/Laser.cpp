@@ -8,9 +8,12 @@
 void Laser::Update(float dt)
 {
     Player* player = dynamic_cast<Player*>(scene->GetActorByName("player"));
-    transform = player->transform;
-    lifespan -= dt;
-    if (lifespan <= 0) destroyed = true;
+    if (player)
+    {
+        transform = player->transform;
+        lifespan -= dt;
+        if (lifespan <= 0) destroyed = true;
+    }
 }
 
 void Laser::OnCollision(Actor* other)
